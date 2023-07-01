@@ -11,6 +11,7 @@ import (
 	"github.com/campushq-official/campushq-api/src/internal/common"
 	"github.com/campushq-official/campushq-api/src/internal/common/tracerr"
 	"github.com/campushq-official/campushq-api/src/internal/config"
+	services "github.com/campushq-official/campushq-api/src/internal/core/domain/services/auth0-services"
 	repositories "github.com/campushq-official/campushq-api/src/internal/core/infrastructure/postgres/repositories/sqlc"
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
@@ -65,15 +66,17 @@ func main() {
 		tracerr.PrintSourceColor(err)
 	}
 
+	/*
+	   |--------------------------------------------------------------------------
+	   | Initialize Services
+	   |--------------------------------------------------------------------------
+	   | Initialize all services here.
+	   |--------------------------------------------------------------------------
+
+	*/
+
 	repositories.NewStore(connPool)
-
-	r := mux.NewRouter().PathPrefix("/api/v1").Subrouter()
-
-	auth := middlewares.NewAuthMiddleware(env, logger)
-
-	r.Use(middlewares.CORS)
-	r.Use(middlewares.Loggin)
-	r.Use(auth.Auth0TokenValidation)
+	services.NewAuth0Service(env)
 
 	/*
 	   |--------------------------------------------------------------------------
@@ -83,6 +86,13 @@ func main() {
 	   |--------------------------------------------------------------------------
 
 	*/
+
+	r := mux.NewRouter().PathPrefix("/api/v1").Subrouter()
+	auth := middlewares.NewAuth0Middleware(env, logger)
+
+	r.Use(middlewares.CORS)
+	r.Use(middlewares.Loggin)
+	r.Use(auth.Auth0TokenValidation)
 
 	routers.StudentRouter(r, logger)
 	routers.DepartmentRouter(r, logger)

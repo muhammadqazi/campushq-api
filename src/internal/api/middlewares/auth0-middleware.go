@@ -14,19 +14,19 @@ import (
 	"github.com/campushq-official/campushq-api/src/internal/config"
 )
 
-type AuthMiddleware struct {
+type Auth0Middleware struct {
 	config config.Config
 	log    *common.Logger
 }
 
-func NewAuthMiddleware(config config.Config, log *common.Logger) AuthMiddleware {
-	return AuthMiddleware{
+func NewAuth0Middleware(config config.Config, log *common.Logger) Auth0Middleware {
+	return Auth0Middleware{
 		config: config,
 		log:    log,
 	}
 }
 
-func (a *AuthMiddleware) Auth0TokenValidation(next http.Handler) http.Handler {
+func (a *Auth0Middleware) Auth0TokenValidation(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		issuerURL, err := url.Parse("https://" + a.config.AUTH0_DOMAIN + "/")
 		if err != nil {
