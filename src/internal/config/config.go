@@ -18,6 +18,7 @@ type Config struct {
 	AUTH0_AUDIENCE                 string `mapstructure:"AUTH0_AUDIENCE"`
 	AUTH0_MANAGEMENT_CLIENT_ID     string `mapstructure:"AUTH0_MANAGEMENT_CLIENT_ID"`
 	AUTH0_MANAGEMENT_CLIENT_SECRET string `mapstructure:"AUTH0_MANAGEMENT_CLIENT_SECRET"`
+	AUTH0_CONNECTION               string `mapstructure:"AUTH0_CONNECTION"`
 }
 
 // LoadConfig reads configuration from file or environment variables.

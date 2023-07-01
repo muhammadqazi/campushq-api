@@ -76,7 +76,7 @@ func main() {
 	*/
 
 	repositories.NewStore(connPool)
-	services.NewAuth0Service(env)
+	auth0Service := services.NewAuth0Service(env)
 
 	/*
 	   |--------------------------------------------------------------------------
@@ -94,7 +94,7 @@ func main() {
 	r.Use(middlewares.Loggin)
 	r.Use(auth.Auth0TokenValidation)
 
-	routers.StudentRouter(r, logger)
+	routers.StudentRouter(r, logger, auth0Service)
 	routers.DepartmentRouter(r, logger)
 
 	/*

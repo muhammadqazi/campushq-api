@@ -1,15 +1,22 @@
 package routers
 
 import (
+	"fmt"
+
 	handlers "github.com/campushq-official/campushq-api/src/internal/api/handlers/student-handlers"
 	"github.com/campushq-official/campushq-api/src/internal/common"
+	services "github.com/campushq-official/campushq-api/src/internal/core/domain/services/auth0-services"
 	"github.com/gorilla/mux"
 )
 
-func StudentRouter(r *mux.Router, logger *common.Logger) {
+func StudentRouter(r *mux.Router, logger *common.Logger, auth0Service services.Auth0Service) {
 
-	h := handlers.NewStudentHandler(logger)
+	fmt.Println("rouite")
 
-	r.HandleFunc("/student/signup", h.StudentSignin).Methods("POST")
-	r.HandleFunc("/student/signin", h.StudentSignup).Methods("POST")
+	h := handlers.NewStudentHandler(logger, auth0Service)
+
+	fmt.Println("we router")
+
+	r.HandleFunc("/student/signin", h.StudentSignin).Methods("POST")
+	r.HandleFunc("/student/signup", h.StudentSignup).Methods("POST")
 }
