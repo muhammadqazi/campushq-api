@@ -3,13 +3,17 @@ module github.com/campushq-official/campushq-api
 go 1.20
 
 require (
+	github.com/coreos/go-oidc/v3 v3.6.0
 	github.com/fatih/color v1.13.0
 	github.com/jackc/pgx/v5 v5.3.1
 	github.com/mattes/migrate v3.0.1+incompatible
 	github.com/spf13/viper v1.16.0
+	golang.org/x/oauth2 v0.8.0
 )
 
 require (
+	github.com/go-jose/go-jose/v3 v3.0.0 // indirect
+	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
@@ -18,13 +22,19 @@ require (
 	github.com/lib/pq v1.10.2 // indirect
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mattn/go-isatty v0.0.16 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
 	go.uber.org/atomic v1.9.0 // indirect
 	golang.org/x/crypto v0.9.0 // indirect
 	golang.org/x/mod v0.11.0 // indirect
+	golang.org/x/net v0.10.0 // indirect
 	golang.org/x/sync v0.2.0 // indirect
+	google.golang.org/appengine v1.6.7 // indirect
+	google.golang.org/protobuf v1.30.0 // indirect
+	gopkg.in/square/go-jose.v2 v2.6.0 // indirect
 )
 
 require (
+	github.com/auth0/go-jwt-middleware/v2 v2.1.0
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/golang-migrate/migrate/v4 v4.16.2
 	github.com/gorilla/mux v1.8.0

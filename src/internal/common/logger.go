@@ -1,6 +1,8 @@
 package common
 
 import (
+	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -58,15 +60,39 @@ func (l *Logger) PrintHTTPRequest() {
 
 		switch l.httpRequest.Method {
 		case http.MethodPost:
-			log.Println(postColor("[POST] " + color.BlueString(l.httpRequest.URL.Path) + " " + userAgent))
+			log.Println(postColor("[POST - Request] " + color.BlueString(l.httpRequest.URL.Path) + " " + userAgent))
 		case http.MethodGet:
-			log.Println(getColor("[GET] " + color.BlueString(l.httpRequest.URL.Path) + " " + userAgent))
+			log.Println(getColor("[GET - Request] " + color.BlueString(l.httpRequest.URL.Path) + " " + userAgent))
 		case http.MethodPut:
-			log.Println(putColor("[PUT] " + color.BlueString(l.httpRequest.URL.Path) + " " + userAgent))
+			log.Println(putColor("[PUT - Request] " + color.BlueString(l.httpRequest.URL.Path) + " " + userAgent))
 		case http.MethodDelete:
-			log.Println(deleteColor("[DELETE] " + color.BlueString(l.httpRequest.URL.Path) + " " + userAgent))
+			log.Println(deleteColor("[DELETE - Request] " + color.BlueString(l.httpRequest.URL.Path) + " " + userAgent))
 		default:
-			log.Println(whiteColor("[UNKNOWN] " + color.BlueString(l.httpRequest.URL.Path) + " " + userAgent))
+			log.Println(whiteColor("[UNKNOWN - Request] " + color.BlueString(l.httpRequest.URL.Path) + " " + userAgent))
+		}
+	}
+}
+
+func (l *Logger) PrintHTTPResponse(rw http.ResponseWriter, r *http.Request, status int, message string) {
+	rw.WriteHeader(status)
+	json.NewEncoder(rw).Encode(
+		map[string]interface{}{
+			"status":  false,
+			"message": message,
+		},
+	)
+	if r != nil {
+		switch r.Method {
+		case http.MethodPost:
+			log.Println(postColor("[POST - Response] " + color.BlueString(r.URL.Path) + " " + debugColor(fmt.Sprint(status)) + " " + message))
+		case http.MethodGet:
+			log.Println(getColor("[GET - Response] " + color.BlueString(r.URL.Path) + " " + debugColor(fmt.Sprint(status)) + " " + message))
+		case http.MethodPut:
+			log.Println(putColor("[PUT - Response] " + color.BlueString(r.URL.Path) + " " + debugColor(fmt.Sprint(status)) + " " + message))
+		case http.MethodDelete:
+			log.Println(deleteColor("[DELETE - Response] " + color.BlueString(r.URL.Path) + " " + debugColor(fmt.Sprint(status)) + " " + message))
+		default:
+			log.Println(whiteColor("[UNKNOWN - Response] " + color.BlueString(r.URL.Path) + " " + debugColor(fmt.Sprint(status)) + " " + message))
 		}
 	}
 }

@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"net/http"
+	"os"
+	"time"
 
 	"github.com/campushq-official/campushq-api/src/internal/api/middlewares"
 	"github.com/campushq-official/campushq-api/src/internal/api/routers"
@@ -67,8 +69,11 @@ func main() {
 
 	r := mux.NewRouter().PathPrefix("/api/v1").Subrouter()
 
+	auth := middlewares.NewAuthMiddleware(env, logger)
+
 	r.Use(middlewares.CORS)
 	r.Use(middlewares.Loggin)
+	r.Use(auth.Auth0TokenValidation)
 
 	/*
 	   |--------------------------------------------------------------------------
@@ -90,6 +95,21 @@ func main() {
 	   |--------------------------------------------------------------------------
 	*/
 
+	s := http.Server{
+		Addr:         env.PORT,
+		Handler:      r,
+		ReadTimeout:  5 * time.Second,
+		WriteTimeout: 10 * time.Second,
+		IdleTimeout:  120 * time.Second,
+	}
+
 	logger.Info("Server started at port", env.PORT)
-	http.ListenAndServe(env.PORT, r)
+
+	err = s.ListenAndServe()
+	if err != nil {
+		err = tracerr.Wrap(err)
+		tracerr.PrintSourceColor(err)
+		os.Exit(1)
+	}
+
 }
