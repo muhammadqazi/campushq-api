@@ -1,0 +1,25 @@
+-- Database initialization script.
+
+CREATE TABLE buildings (
+   id SERIAL PRIMARY KEY,
+   name VARCHAR(50) NOT NULL,
+   code VARCHAR(50) NOT NULL UNIQUE,
+   description VARCHAR(255) NOT NULL,
+   number_of_rooms INT NOT NULL,
+   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   deleted_at TIMESTAMPTZ,
+   is_active BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+CREATE TABLE rooms (
+   id SERIAL PRIMARY KEY,
+   name VARCHAR(50) NOT NULL,
+   description VARCHAR(255) NOT NULL,
+   building_id INT NOT NULL,
+   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   deleted_at TIMESTAMPTZ,
+   is_active BOOLEAN NOT NULL DEFAULT TRUE,
+   FOREIGN KEY (building_id) REFERENCES buildings(id)
+);
