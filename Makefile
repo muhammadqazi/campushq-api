@@ -11,6 +11,9 @@ db-init:
 	docker exec -it postgres createdb --username=root --owner=root campushq && \
 	docker exec -i postgres psql -U root -d campushq < database-up.sql && \
 	docker exec -i postgres psql -U root -d campushq < db-seed.sql
+db-seed:
+	@cd src/internal/core/infrastructure/postgres && \
+	docker exec -i postgres psql -U root -d campushq < db-seed.sql
 new-migration:
 	migrate create -ext sql -dir  src/internal/core/infrastructure/postgres/migrations -seq $(name)
 migrate-up:
@@ -25,4 +28,4 @@ server:
 	fi
 	go run src/cmd/main.go
 
-.PHONY: postgres create-db db-wipe db-init server new-migration migrate-up migrate-down sqlc
+.PHONY: postgres create-db db-wipe db-init db-seed server new-migration migrate-up migrate-down sqlc

@@ -3,12 +3,15 @@ package main
 import (
 	"context"
 	"net/http"
+	"os"
+	"time"
 
 	"github.com/campushq-official/campushq-api/src/internal/api/middlewares"
 	"github.com/campushq-official/campushq-api/src/internal/api/routers"
-	"github.com/campushq-official/campushq-api/src/internal/common"
+	"github.com/campushq-official/campushq-api/src/internal/common/logs"
 	"github.com/campushq-official/campushq-api/src/internal/common/tracerr"
 	"github.com/campushq-official/campushq-api/src/internal/config"
+	services "github.com/campushq-official/campushq-api/src/internal/core/domain/services/auth0-services"
 	repositories "github.com/campushq-official/campushq-api/src/internal/core/infrastructure/postgres/repositories/sqlc"
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
@@ -20,7 +23,7 @@ import (
 
 func main() {
 
-	logger := common.NewLogger(nil)
+	logger := logs.NewLogger(nil)
 
 	/*
 	   |--------------------------------------------------------------------------
@@ -63,24 +66,48 @@ func main() {
 		tracerr.PrintSourceColor(err)
 	}
 
-	repositories.NewStore(connPool)
-
-	r := mux.NewRouter().PathPrefix("/api/v1").Subrouter()
-
-	r.Use(middlewares.CORS)
-	r.Use(middlewares.Loggin)
-
 	/*
 	   |--------------------------------------------------------------------------
-	   | Routers
+	   | Initialize Services
 	   |--------------------------------------------------------------------------
-	   | Register all routers here.
+	   | Initialize all services here.
 	   |--------------------------------------------------------------------------
 
 	*/
 
-	routers.StudentRouter(r, logger)
-	routers.DepartmentRouter(r, logger)
+	repositories.NewStore(connPool)
+	auth0Service := services.NewAuth0Service(env)
+
+	/*
+	   |--------------------------------------------------------------------------
+	   | Mux initialization & Middlewares
+	   |--------------------------------------------------------------------------
+	   | Initialize mux router & middlewares
+	   |--------------------------------------------------------------------------
+
+	*/
+
+	r := mux.NewRouter().PathPrefix("/api/v1").Subrouter()
+	auth := middlewares.NewAuth0Middleware(env, logger)
+
+	r.Use(middlewares.CORS)
+	r.Use(middlewares.Loggin)
+	r.Use(auth.Auth0Authentication)
+
+	/*
+	   |--------------------------------------------------------------------------
+	   | Router initialization
+	   |--------------------------------------------------------------------------
+	   | Initialize and register all routers here.
+	   |--------------------------------------------------------------------------
+
+	*/
+
+	studentRouter := routers.NewStudentRouter(r, logger, auth0Service)
+	departmentRouter := routers.NewDepartmentRouter(r, logger)
+
+	departmentRouter.DepartmentRouter()
+	studentRouter.StudentRouter()
 
 	/*
 	   |--------------------------------------------------------------------------
@@ -90,6 +117,21 @@ func main() {
 	   |--------------------------------------------------------------------------
 	*/
 
+	s := http.Server{
+		Addr:         env.PORT,
+		Handler:      r,
+		ReadTimeout:  5 * time.Second,
+		WriteTimeout: 10 * time.Second,
+		IdleTimeout:  120 * time.Second,
+	}
+
 	logger.Info("Server started at port", env.PORT)
-	http.ListenAndServe(env.PORT, r)
+
+	err = s.ListenAndServe()
+	if err != nil {
+		err = tracerr.Wrap(err)
+		tracerr.PrintSourceColor(err)
+		os.Exit(1)
+	}
+
 }

@@ -3,14 +3,14 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/campushq-official/campushq-api/src/internal/common"
+	"github.com/campushq-official/campushq-api/src/internal/common/logs"
 )
 
 type departmentHandler struct {
-	Logger *common.Logger
+	Logger *logs.Logger
 }
 
-func NewDepartmentHandler(logger *common.Logger) *departmentHandler {
+func NewDepartmentHandler(logger *logs.Logger) *departmentHandler {
 	return &departmentHandler{Logger: logger}
 }
 
