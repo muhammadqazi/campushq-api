@@ -8,6 +8,13 @@ import (
 	"github.com/carlmjohnson/requests"
 )
 
+var ApiTokenInfo struct {
+	AccessToken string `json:"access_token"`
+	TokenType   string `json:"token_type"`
+	Scope       string `json:"scope"`
+	ExpiresIn   int    `json:"expires_in"`
+}
+
 func (s *auth0Service) GenerateAccessToken() (string, error) {
 
 	ctx := context.TODO()
@@ -17,20 +24,17 @@ func (s *auth0Service) GenerateAccessToken() (string, error) {
 		ClientSecret string `json:"client_secret"`
 		Audience     string `json:"audience"`
 	}{
-		GrantType:    s.GrantType,
-		ClientID:     s.ManagementClientID,
-		ClientSecret: s.ManagementClientSecret,
+		GrantType:    "client_credentials",
+		ClientID:     s.ClientID,
+		ClientSecret: s.ClientSecret,
 		Audience:     s.Audience,
 	}
 
-	var res struct {
-		AccessToken string `json:"access_token"`
-	}
 	err := requests.
 		URL("/oauth/token").
 		Host(s.Domain).
 		BodyJSON(&req).
-		ToJSON(&res).
+		ToJSON(&ApiTokenInfo).
 		Fetch(ctx)
 
 	if err != nil {
@@ -39,7 +43,7 @@ func (s *auth0Service) GenerateAccessToken() (string, error) {
 		return "", err
 	}
 
-	fmt.Println(res)
-	return res.AccessToken, nil
+	fmt.Println(ApiTokenInfo)
 
+	return ApiTokenInfo.AccessToken, nil
 }

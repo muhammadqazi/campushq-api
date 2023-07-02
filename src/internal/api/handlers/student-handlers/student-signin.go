@@ -23,11 +23,11 @@ func NewStudentHandler(logger *common.Logger, auth0Service services.Auth0Service
 
 func (l *studentHandler) StudentSignin(rw http.ResponseWriter, r *http.Request) {
 
-	req := dtos.StudentCreateDTO{
-		Email:    "tigerbhai888+1@gmail.com",
+	req := dtos.StudentSigninDTO{
+		Username: "student-21906778",
 		Password: "1234!@@#$qwerQWER",
 	}
 
-	res := l.auth0Service.Auth0Signup(req)
-	fmt.Println(res)
+	res, err := l.auth0Service.Auth0UserSignin(req)
+	fmt.Println(res, err)
 }
