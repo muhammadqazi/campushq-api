@@ -8,7 +8,7 @@ import (
 
 	"github.com/campushq-official/campushq-api/src/internal/api/middlewares"
 	"github.com/campushq-official/campushq-api/src/internal/api/routers"
-	"github.com/campushq-official/campushq-api/src/internal/common"
+	"github.com/campushq-official/campushq-api/src/internal/common/logs"
 	"github.com/campushq-official/campushq-api/src/internal/common/tracerr"
 	"github.com/campushq-official/campushq-api/src/internal/config"
 	services "github.com/campushq-official/campushq-api/src/internal/core/domain/services/auth0-services"
@@ -23,7 +23,7 @@ import (
 
 func main() {
 
-	logger := common.NewLogger(nil)
+	logger := logs.NewLogger(nil)
 
 	/*
 	   |--------------------------------------------------------------------------
@@ -80,9 +80,9 @@ func main() {
 
 	/*
 	   |--------------------------------------------------------------------------
-	   | Routers
+	   | Mux initialization & Middlewares
 	   |--------------------------------------------------------------------------
-	   | Register all routers here.
+	   | Initialize mux router & middlewares
 	   |--------------------------------------------------------------------------
 
 	*/
@@ -92,10 +92,22 @@ func main() {
 
 	r.Use(middlewares.CORS)
 	r.Use(middlewares.Loggin)
-	r.Use(auth.Auth0TokenValidation)
+	r.Use(auth.Auth0Authentication)
 
-	routers.StudentRouter(r, logger, auth0Service)
-	routers.DepartmentRouter(r, logger)
+	/*
+	   |--------------------------------------------------------------------------
+	   | Router initialization
+	   |--------------------------------------------------------------------------
+	   | Initialize and register all routers here.
+	   |--------------------------------------------------------------------------
+
+	*/
+
+	studentRouter := routers.NewStudentRouter(r, logger, auth0Service)
+	departmentRouter := routers.NewDepartmentRouter(r, logger)
+
+	departmentRouter.DepartmentRouter()
+	studentRouter.StudentRouter()
 
 	/*
 	   |--------------------------------------------------------------------------

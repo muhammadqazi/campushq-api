@@ -1,4 +1,4 @@
-package common
+package logs
 
 import (
 	"encoding/json"
@@ -73,11 +73,11 @@ func (l *Logger) PrintHTTPRequest() {
 	}
 }
 
-func (l *Logger) PrintHTTPResponse(rw http.ResponseWriter, r *http.Request, status int, message string) {
+func (l *Logger) PrintHTTPResponse(rw http.ResponseWriter, r *http.Request, status int, message string, statusBool bool) {
 	rw.WriteHeader(status)
 	json.NewEncoder(rw).Encode(
 		map[string]interface{}{
-			"status":  false,
+			"status":  statusBool,
 			"message": message,
 		},
 	)

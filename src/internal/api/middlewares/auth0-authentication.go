@@ -1,7 +1,7 @@
 package middlewares
 
 import (
-	"fmt"
+	"context"
 	"net/http"
 	"net/url"
 	"strings"
@@ -9,24 +9,32 @@ import (
 
 	"github.com/auth0/go-jwt-middleware/v2/jwks"
 	"github.com/auth0/go-jwt-middleware/v2/validator"
-	"github.com/campushq-official/campushq-api/src/internal/common"
+
+	"github.com/campushq-official/campushq-api/src/internal/common/logs"
 	"github.com/campushq-official/campushq-api/src/internal/common/tracerr"
+	"github.com/campushq-official/campushq-api/src/internal/common/utils"
 	"github.com/campushq-official/campushq-api/src/internal/config"
 )
 
 type Auth0Middleware struct {
 	config config.Config
-	log    *common.Logger
+	log    *logs.Logger
 }
 
-func NewAuth0Middleware(config config.Config, log *common.Logger) Auth0Middleware {
+func NewAuth0Middleware(config config.Config, log *logs.Logger) Auth0Middleware {
 	return Auth0Middleware{
 		config: config,
 		log:    log,
 	}
 }
 
-func (a *Auth0Middleware) Auth0TokenValidation(next http.Handler) http.Handler {
+type contextKey string
+
+const (
+	TokenInfoContextKey contextKey = "decodedToken"
+)
+
+func (a *Auth0Middleware) Auth0Authentication(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		issuerURL, err := url.Parse("https://" + a.config.AUTH0_DOMAIN + "/")
 		if err != nil {
@@ -40,30 +48,36 @@ func (a *Auth0Middleware) Auth0TokenValidation(next http.Handler) http.Handler {
 			provider.KeyFunc,
 			validator.RS256,
 			issuerURL.String(),
-			[]string{a.config.AUTH0_AUDIENCE},
+			[]string{a.config.AUTH0_DEVELOPEMENT_AUDIENCE},
 		)
 		if err != nil {
 			err = tracerr.Wrap(err)
 			tracerr.PrintSourceColor(err)
 		}
 
-		// get the token from the request header
 		authHeader := r.Header.Get("Authorization")
 		authHeaderParts := strings.Split(authHeader, " ")
 		if len(authHeaderParts) != 2 {
-			a.log.PrintHTTPResponse(rw, r, http.StatusUnauthorized, "Invalid authorization header")
+			a.log.PrintHTTPResponse(rw, r, http.StatusUnauthorized, "Invalid authorization header", false)
 			return
 		}
 
-		tokenInfo, err := jwtValidator.ValidateToken(r.Context(), authHeaderParts[1])
+		_, err = jwtValidator.ValidateToken(r.Context(), authHeaderParts[1])
 		if err != nil {
-			a.log.PrintHTTPResponse(rw, r, http.StatusUnauthorized, "Invalid token")
+			a.log.PrintHTTPResponse(rw, r, http.StatusUnauthorized, "Invalid token", false)
 			return
 		}
 
-		fmt.Println(tokenInfo)
+		/*
+			"""
+			Decode the token and add it to the request context
+			"""
+		*/
 
-		// Go to next middleware:
-		next.ServeHTTP(rw, r)
+		decodedToken := utils.Extractor(authHeaderParts[1])
+
+		ctx := context.WithValue(r.Context(), TokenInfoContextKey, decodedToken)
+
+		next.ServeHTTP(rw, r.WithContext(ctx))
 	})
 }
