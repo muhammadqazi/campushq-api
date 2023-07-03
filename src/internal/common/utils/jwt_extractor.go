@@ -6,7 +6,7 @@ import (
 	extract "github.com/golang-jwt/jwt"
 )
 
-func Extractor(tokenString string) extract.MapClaims {
+func JWTExtractor(tokenString string) extract.MapClaims {
 	token, _, err := new(extract.Parser).ParseUnverified(tokenString, extract.MapClaims{})
 	if err != nil {
 		fmt.Printf("Error %s", err)

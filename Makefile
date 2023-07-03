@@ -1,4 +1,4 @@
-DB_URL=postgres://root:root@localhost:5432/campushq?sslmode=disable
+DB_URL=$(shell grep DB_URL .env | cut -d '=' -f2-)
 
 postgres:
 	docker run --name postgres -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -p 5432:5432 -d postgres:latest
@@ -7,6 +7,7 @@ create-db:
 db-wipe:
 	docker exec -it postgres dropdb campushq
 db-init:
+	echo $(DB_URL)
 	@cd src/internal/core/infrastructure/postgres && \
 	docker exec -it postgres createdb --username=root --owner=root campushq && \
 	docker exec -i postgres psql -U root -d campushq < database-up.sql && \

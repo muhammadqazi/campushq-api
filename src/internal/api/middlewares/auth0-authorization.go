@@ -12,7 +12,6 @@ func Auth0Authorization(requiredPermission string, log *logs.Logger, handler htt
 		decodedToken := r.Context().Value(TokenInfoContextKey)
 		if decodedToken == nil {
 			log.PrintHTTPResponse(rw, r, http.StatusForbidden, "Invalid scope to access the resource.", false)
-			rw.WriteHeader(http.StatusForbidden)
 			return
 		}
 
@@ -27,6 +26,5 @@ func Auth0Authorization(requiredPermission string, log *logs.Logger, handler htt
 		}
 
 		log.PrintHTTPResponse(rw, r, http.StatusForbidden, "Invalid scope to access the resource.", false)
-		rw.WriteHeader(http.StatusForbidden)
 	}
 }
