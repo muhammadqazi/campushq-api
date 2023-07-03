@@ -74,7 +74,7 @@ func (a *Auth0Middleware) Auth0Authentication(next http.Handler) http.Handler {
 			"""
 		*/
 
-		decodedToken := utils.Extractor(authHeaderParts[1])
+		decodedToken := utils.JWTExtractor(authHeaderParts[1])
 
 		ctx := context.WithValue(r.Context(), TokenInfoContextKey, decodedToken)
 

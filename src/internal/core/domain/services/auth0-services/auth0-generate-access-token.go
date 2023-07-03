@@ -2,7 +2,6 @@ package services
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/campushq-official/campushq-api/src/internal/common/tracerr"
 	"github.com/carlmjohnson/requests"
@@ -42,8 +41,6 @@ func (s *auth0Service) GenerateAccessToken() (string, error) {
 		tracerr.PrintSourceColor(err)
 		return "", err
 	}
-
-	fmt.Println(ApiTokenInfo)
 
 	return ApiTokenInfo.AccessToken, nil
 }
