@@ -11,6 +11,7 @@ import (
 	"github.com/auth0/go-jwt-middleware/v2/validator"
 
 	"github.com/campushq-official/campushq-api/src/internal/common/logs"
+	"github.com/campushq-official/campushq-api/src/internal/common/response"
 	"github.com/campushq-official/campushq-api/src/internal/common/tracerr"
 	"github.com/campushq-official/campushq-api/src/internal/common/utils"
 	"github.com/campushq-official/campushq-api/src/internal/config"
@@ -58,13 +59,15 @@ func (a *Auth0Middleware) Auth0Authentication(next http.Handler) http.Handler {
 		authHeader := r.Header.Get("Authorization")
 		authHeaderParts := strings.Split(authHeader, " ")
 		if len(authHeaderParts) != 2 {
-			a.log.PrintHTTPResponse(rw, r, http.StatusUnauthorized, "Invalid authorization header", false)
+			response.JSONMessageResponse(rw, http.StatusUnauthorized, "Invalid authorization header")
+			a.log.PrintHTTPResponse(r, http.StatusUnauthorized, "Invalid authorization header")
 			return
 		}
 
 		_, err = jwtValidator.ValidateToken(r.Context(), authHeaderParts[1])
 		if err != nil {
-			a.log.PrintHTTPResponse(rw, r, http.StatusUnauthorized, "Invalid token", false)
+			response.JSONMessageResponse(rw, http.StatusUnauthorized, "Invalid token")
+			a.log.PrintHTTPResponse(r, http.StatusUnauthorized, "Invalid token")
 			return
 		}
 

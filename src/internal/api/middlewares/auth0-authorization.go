@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/campushq-official/campushq-api/src/internal/common/logs"
+	"github.com/campushq-official/campushq-api/src/internal/common/response"
 	"github.com/golang-jwt/jwt"
 )
 
@@ -11,7 +12,8 @@ func Auth0Authorization(requiredPermission string, log *logs.Logger, handler htt
 	return func(rw http.ResponseWriter, r *http.Request) {
 		decodedToken := r.Context().Value(TokenInfoContextKey)
 		if decodedToken == nil {
-			log.PrintHTTPResponse(rw, r, http.StatusForbidden, "Invalid scope to access the resource.", false)
+			response.JSONMessageResponse(rw, http.StatusForbidden, "Invalid scope to access the resource.")
+			log.PrintHTTPResponse(r, http.StatusForbidden, "Invalid scope to access the resource.")
 			return
 		}
 
@@ -25,6 +27,7 @@ func Auth0Authorization(requiredPermission string, log *logs.Logger, handler htt
 			}
 		}
 
-		log.PrintHTTPResponse(rw, r, http.StatusForbidden, "Invalid scope to access the resource.", false)
+		response.JSONMessageResponse(rw, http.StatusForbidden, "Invalid scope to access the resource.")
+		log.PrintHTTPResponse(r, http.StatusForbidden, "Invalid scope to access the resource.")
 	}
 }
