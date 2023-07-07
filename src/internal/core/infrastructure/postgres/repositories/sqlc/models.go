@@ -9,7 +9,7 @@ import (
 )
 
 type Building struct {
-	ID            int32              `json:"id"`
+	BuildingID    int32              `json:"building_id"`
 	Name          string             `json:"name"`
 	Code          string             `json:"code"`
 	Description   string             `json:"description"`
@@ -20,13 +20,138 @@ type Building struct {
 	IsActive      bool               `json:"is_active"`
 }
 
+type Department struct {
+	DepartmentID          int32            `json:"department_id"`
+	Name                  string           `json:"name"`
+	Code                  string           `json:"code"`
+	Description           string           `json:"description"`
+	NumberOfSemesters     int32            `json:"number_of_semesters"`
+	DepartmentEmail       string           `json:"department_email"`
+	DepartmentPhoneNumber string           `json:"department_phone_number"`
+	TutionPerSemester     int32            `json:"tution_per_semester"`
+	CreatedAt             pgtype.Timestamp `json:"created_at"`
+	UpdatedAt             pgtype.Timestamp `json:"updated_at"`
+	DeletedAt             pgtype.Timestamp `json:"deleted_at"`
+	HeadOfDepartmentID    int32            `json:"head_of_department_id"`
+	FacultyID             int32            `json:"faculty_id"`
+}
+
+type Faculty struct {
+	FacultyID          int32            `json:"faculty_id"`
+	Name               string           `json:"name"`
+	Description        string           `json:"description"`
+	FacultyEmail       string           `json:"faculty_email"`
+	FacultyPhoneNumber string           `json:"faculty_phone_number"`
+	CreatedAt          pgtype.Timestamp `json:"created_at"`
+	UpdatedAt          pgtype.Timestamp `json:"updated_at"`
+	DeletedAt          pgtype.Timestamp `json:"deleted_at"`
+	DeanID             int32            `json:"dean_id"`
+	ViceDeanID         int32            `json:"vice_dean_id"`
+}
+
+type PersonalInformation struct {
+	Pid                      int32            `json:"pid"`
+	Nationality              string           `json:"nationality"`
+	City                     string           `json:"city"`
+	Address                  string           `json:"address"`
+	Dob                      pgtype.Date      `json:"dob"`
+	PlaceOfBirth             string           `json:"place_of_birth"`
+	LocalAddress             pgtype.Text      `json:"local_address"`
+	GuardianPhoneNumber      string           `json:"guardian_phone_number"`
+	LocalPhoneNumber         pgtype.Text      `json:"local_phone_number"`
+	FatherName               string           `json:"father_name"`
+	MotherName               string           `json:"mother_name"`
+	PassportNumber           string           `json:"passport_number"`
+	PassportIssueDate        pgtype.Date      `json:"passport_issue_date"`
+	PassportExpiryDate       pgtype.Date      `json:"passport_expiry_date"`
+	PassportIssuePlace       pgtype.Text      `json:"passport_issue_place"`
+	PassportIssuingAuthority string           `json:"passport_issuing_authority"`
+	IDCardNumber             pgtype.Text      `json:"id_card_number"`
+	StudentID                pgtype.Int4      `json:"student_id"`
+	StaffID                  pgtype.Int4      `json:"staff_id"`
+	IsStaff                  bool             `json:"is_staff"`
+	UpdatedAt                pgtype.Timestamp `json:"updated_at"`
+}
+
 type Room struct {
-	ID          int32              `json:"id"`
+	RoomID      int32              `json:"room_id"`
 	Name        string             `json:"name"`
 	Description string             `json:"description"`
-	BuildingID  int32              `json:"building_id"`
+	Capacity    pgtype.Int4        `json:"capacity"`
 	CreatedAt   pgtype.Timestamptz `json:"created_at"`
 	UpdatedAt   pgtype.Timestamptz `json:"updated_at"`
 	DeletedAt   pgtype.Timestamptz `json:"deleted_at"`
 	IsActive    bool               `json:"is_active"`
+	BuildingID  int32              `json:"building_id"`
+}
+
+type Staff struct {
+	StaffID   int32            `json:"staff_id"`
+	Username  pgtype.Text      `json:"username"`
+	FirstName string           `json:"first_name"`
+	Surname   string           `json:"surname"`
+	Sex       string           `json:"sex"`
+	Role      string           `json:"role"`
+	Salary    string           `json:"salary"`
+	Status    string           `json:"status"`
+	OfficeID  int32            `json:"office_id"`
+	CreatedAt pgtype.Timestamp `json:"created_at"`
+	UpdatedAt pgtype.Timestamp `json:"updated_at"`
+	DeletedAt pgtype.Timestamp `json:"deleted_at"`
+}
+
+type Student struct {
+	StudentID      int32            `json:"student_id"`
+	FirstName      string           `json:"first_name"`
+	Surname        string           `json:"surname"`
+	Sex            string           `json:"sex"`
+	Role           string           `json:"role"`
+	Status         string           `json:"status"`
+	AccessStatus   string           `json:"access_status"`
+	AcceptanceType string           `json:"acceptance_type"`
+	Semester       string           `json:"semester"`
+	GraduationDate pgtype.Timestamp `json:"graduation_date"`
+	SupervisorID   pgtype.Int4      `json:"supervisor_id"`
+	DepartmentID   pgtype.Int4      `json:"department_id"`
+	CreatedAt      pgtype.Timestamp `json:"created_at"`
+	UpdatedAt      pgtype.Timestamp `json:"updated_at"`
+	DeletedAt      pgtype.Timestamp `json:"deleted_at"`
+	IsActive       bool             `json:"is_active"`
+}
+
+type StudentAccount struct {
+	AccountID             int32            `json:"account_id"`
+	ScholarshipPercentage int32            `json:"scholarship_percentage"`
+	DiscountPercentage    int32            `json:"discount_percentage"`
+	DiscountType          string           `json:"discount_type"`
+	TotalDebt             int32            `json:"total_debt"`
+	UpdatedAt             pgtype.Timestamp `json:"updated_at"`
+	StudentID             pgtype.Int4      `json:"student_id"`
+}
+
+type StudentInvoice struct {
+	InvoiceID          int32            `json:"invoice_id"`
+	InvoiceNumber      string           `json:"invoice_number"`
+	InvoiceDate        pgtype.Timestamp `json:"invoice_date"`
+	InvoiceDueDate     pgtype.Timestamp `json:"invoice_due_date"`
+	InvoiceAmount      int32            `json:"invoice_amount"`
+	InvoiceStatus      string           `json:"invoice_status"`
+	InvoiceType        string           `json:"invoice_type"`
+	InvoiceDescription string           `json:"invoice_description"`
+	Term               string           `json:"term"`
+	CreatedAt          pgtype.Timestamp `json:"created_at"`
+	UpdatedAt          pgtype.Timestamp `json:"updated_at"`
+	AccountID          int32            `json:"account_id"`
+}
+
+type StudentPayment struct {
+	PaymentID          int32            `json:"payment_id"`
+	PaymentDate        pgtype.Timestamp `json:"payment_date"`
+	PaymentAmount      int32            `json:"payment_amount"`
+	PaymentMethod      string           `json:"payment_method"`
+	PaymentDescription string           `json:"payment_description"`
+	PaymentStatus      string           `json:"payment_status"`
+	CreatedAt          pgtype.Timestamp `json:"created_at"`
+	UpdatedAt          pgtype.Timestamp `json:"updated_at"`
+	AccountID          int32            `json:"account_id"`
 }

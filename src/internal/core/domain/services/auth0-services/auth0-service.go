@@ -7,7 +7,7 @@ import (
 
 type Auth0Service interface {
 	GenerateAccessToken() (string, error)
-	Auth0Signup(req dtos.StudentCreateDTO) error
+	Auth0Signup(req *dtos.Auth0SignupDTO) error
 	Auth0UserSignin(req dtos.StudentSigninDTO) (string, error)
 }
 

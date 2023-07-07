@@ -5,12 +5,14 @@ go 1.20
 require (
 	github.com/carlmjohnson/requests v0.23.4
 	github.com/fatih/color v1.13.0
+	github.com/go-ozzo/ozzo-validation v3.6.0+incompatible
 	github.com/jackc/pgx/v5 v5.3.1
 	github.com/mattes/migrate v3.0.1+incompatible
 	github.com/spf13/viper v1.16.0
 )
 
 require (
+	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
@@ -30,7 +32,6 @@ require (
 
 require (
 	github.com/auth0/go-jwt-middleware/v2 v2.1.0
-	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/golang-migrate/migrate/v4 v4.16.2

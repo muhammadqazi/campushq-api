@@ -3,30 +3,31 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/campushq-official/campushq-api/src/internal/common/logs"
-	services "github.com/campushq-official/campushq-api/src/internal/core/domain/services/auth0-services"
+	"github.com/campushq-official/campushq-api/src/internal/common/response"
+	"github.com/campushq-official/campushq-api/src/internal/common/utils"
+	dtos "github.com/campushq-official/campushq-api/src/internal/core/domain/dtos/student-dtos"
 )
 
-type studentHandler struct {
-	logger       *logs.Logger
-	auth0Service services.Auth0Service
-}
-
-func NewStudentHandler(logger *logs.Logger, auth0Service services.Auth0Service) *studentHandler {
-	return &studentHandler{
-		logger:       logger,
-		auth0Service: auth0Service,
-	}
-}
-
 func (l *studentHandler) StudentSignin(rw http.ResponseWriter, r *http.Request) {
+	var req dtos.StudentSigninDTO
+	if err := utils.RequestBodyParser(r, &req); err != nil {
+		response.JSONErrorResponse(rw, err)
+		l.logger.PrintHTTPResponse(r, http.StatusBadRequest, "Invalid request body.")
+		return
+	}
 
-	// fmt.Println("sgnininiiininiinininiinininin--------")
-	// req := dtos.StudentSigninDTO{
-	// 	Username: "student-21906778",
-	// 	Password: "1234!@@#$qwerQWER",
-	// }
+	if token, err := l.auth0Service.Auth0UserSignin(req); err == nil {
 
-	// res, err := l.auth0Service.Auth0UserSignin(req)
-	// fmt.Println(res, err)
+		data := map[string]interface{}{
+			"token": token,
+			"type":  "Bearer",
+		}
+
+		response.JSONDataResponse(rw, http.StatusOK, data)
+		l.logger.PrintHTTPResponse(r, http.StatusOK, "Student signed in successfully.")
+		return
+	}
+
+	response.JSONMessageResponse(rw, http.StatusInternalServerError, "Internal server error.")
+	l.logger.PrintHTTPResponse(r, http.StatusInternalServerError, "Internal server error.")
 }

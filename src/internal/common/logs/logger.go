@@ -1,7 +1,6 @@
 package logs
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -73,14 +72,7 @@ func (l *Logger) PrintHTTPRequest() {
 	}
 }
 
-func (l *Logger) PrintHTTPResponse(rw http.ResponseWriter, r *http.Request, status int, message string, statusBool bool) {
-	rw.WriteHeader(status)
-	json.NewEncoder(rw).Encode(
-		map[string]interface{}{
-			"status":  statusBool,
-			"message": message,
-		},
-	)
+func (l *Logger) PrintHTTPResponse(r *http.Request, status int, message string) {
 	if r != nil {
 		switch r.Method {
 		case http.MethodPost:

@@ -10,7 +10,7 @@ import (
 )
 
 const selectAllBuildings = `-- name: SelectAllBuildings :many
-SELECT id, name, code, description, number_of_rooms, created_at, updated_at, deleted_at, is_active FROM buildings WHERE is_active = true AND deleted_at IS NULL
+SELECT building_id, name, code, description, number_of_rooms, created_at, updated_at, deleted_at, is_active FROM buildings WHERE is_active = true AND deleted_at IS NULL
 `
 
 func (q *Queries) SelectAllBuildings(ctx context.Context) ([]Building, error) {
@@ -23,7 +23,7 @@ func (q *Queries) SelectAllBuildings(ctx context.Context) ([]Building, error) {
 	for rows.Next() {
 		var i Building
 		if err := rows.Scan(
-			&i.ID,
+			&i.BuildingID,
 			&i.Name,
 			&i.Code,
 			&i.Description,
