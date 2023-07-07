@@ -59,18 +59,18 @@ VALUES
    ('Medicine', 'MED', 'Description for Medicine Department', 12, 'med@university.edu', '+7788990011', 6000, 5, 5);
 
 -- Insert records for table `students`
-INSERT INTO students (student_id, username, first_name, surname, sex, role, status, access_status, acceptance_type, semester, graduation_date, supervisor_id, department_id, created_at, updated_at, is_active)
+INSERT INTO students (student_id, first_name, surname, sex, role, status, access_status, acceptance_type, semester, graduation_date, supervisor_id, department_id, created_at, updated_at, is_active)
 VALUES
-   (21906778, 'student1', 'John', 'Doe', 'Male', 'Student', 'Active', 'Allowed', 'Accepted', 'Fall 2022', NULL, 1, 1, NOW(), NOW(), true),
-   (21906779, 'student2', 'Jane', 'Smith', 'Female', 'Student', 'Active', 'Allowed', 'Accepted', 'Spring 2023', NULL, 2, 2, NOW(), NOW(), true),
-   (21906710, 'student3', 'Robert', 'Johnson', 'Male', 'Student', 'Active', 'Allowed', 'Accepted', 'Fall 2021', NULL, 3, 3, NOW(), NOW(), true),
-   (21906711, 'student4', 'Emily', 'Wilson', 'Female', 'Student', 'Active', 'Allowed', 'Accepted', 'Spring 2024', NULL, 4, 4, NOW(), NOW(), true),
-   (21906712, 'student5', 'Michael', 'Brown', 'Male', 'Student', 'Active', 'Allowed', 'Accepted', 'Fall 2022', NULL, 5, 5, NOW(), NOW(), true),
-   (21906713, 'student6', 'Sophia', 'Miller', 'Female', 'Student', 'Active', 'Allowed', 'Accepted', 'Spring 2023', NULL, 6, 1, NOW(), NOW(), true),
-   (21906714, 'student7', 'David', 'Anderson', 'Male', 'Student', 'Active', 'Allowed', 'Accepted', 'Fall 2021', NULL, 7, 2, NOW(), NOW(), true),
-   (21906715, 'student8', 'Olivia', 'Clark', 'Female', 'Student', 'Active', 'Allowed', 'Accepted', 'Spring 2024', NULL, 8, 3, NOW(), NOW(), true),
-   (21906716, 'student9', 'William', 'Thompson', 'Male', 'Student', 'Active', 'Allowed', 'Accepted', 'Fall 2022', NULL, 9, 4, NOW(), NOW(), true),
-   (21906717, 'student10', 'Ava', 'Hall', 'Female', 'Student', 'Active', 'Allowed', 'Accepted', 'Spring 2023', NULL, 10, 5, NOW(), NOW(), true);
+   (21906778, 'John', 'Doe', 'Male', 'Student', 'Active', 'Allowed', 'Accepted', 'Fall 2022', NULL, 1, 1, NOW(), NOW(), true),
+   (21906779, 'Jane', 'Smith', 'Female', 'Student', 'Active', 'Allowed', 'Accepted', 'Spring 2023', NULL, 2, 2, NOW(), NOW(), true),
+   (21906710, 'Robert', 'Johnson', 'Male', 'Student', 'Active', 'Allowed', 'Accepted', 'Fall 2021', NULL, 3, 3, NOW(), NOW(), true),
+   (21906711, 'Emily', 'Wilson', 'Female', 'Student', 'Active', 'Allowed', 'Accepted', 'Spring 2024', NULL, 4, 4, NOW(), NOW(), true),
+   (21906712, 'Michael', 'Brown', 'Male', 'Student', 'Active', 'Allowed', 'Accepted', 'Fall 2022', NULL, 5, 5, NOW(), NOW(), true),
+   (21906713, 'Sophia', 'Miller', 'Female', 'Student', 'Active', 'Allowed', 'Accepted', 'Spring 2023', NULL, 6, 1, NOW(), NOW(), true),
+   (21906714, 'David', 'Anderson', 'Male', 'Student', 'Active', 'Allowed', 'Accepted', 'Fall 2021', NULL, 7, 2, NOW(), NOW(), true),
+   (21906715, 'Olivia', 'Clark', 'Female', 'Student', 'Active', 'Allowed', 'Accepted', 'Spring 2024', NULL, 8, 3, NOW(), NOW(), true),
+   (21906716, 'William', 'Thompson', 'Male', 'Student', 'Active', 'Allowed', 'Accepted', 'Fall 2022', NULL, 9, 4, NOW(), NOW(), true),
+   (21906717, 'Ava', 'Hall', 'Female', 'Student', 'Active', 'Allowed', 'Accepted', 'Spring 2023', NULL, 10, 5, NOW(), NOW(), true);
 
 -- Insert records for table `student_accounts`
 INSERT INTO student_accounts (scholarship_percentage, discount_percentage, discount_type, total_debt, student_id)

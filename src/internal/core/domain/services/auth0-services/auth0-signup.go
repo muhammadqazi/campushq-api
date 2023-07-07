@@ -9,7 +9,7 @@ import (
 	"github.com/carlmjohnson/requests"
 )
 
-func (s *auth0Service) Auth0Signup(req dtos.StudentCreateDTO) error {
+func (s *auth0Service) Auth0Signup(req *dtos.Auth0SignupDTO) error {
 
 	ctx := context.TODO()
 

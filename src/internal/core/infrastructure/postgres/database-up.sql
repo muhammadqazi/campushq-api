@@ -113,7 +113,6 @@ CREATE TABLE departments (
 
 CREATE TABLE students (
     student_id INT NOT NULL PRIMARY KEY,
-    username VARCHAR(50) NULL UNIQUE,
     first_name VARCHAR(50) NOT NULL,
     surname VARCHAR(50) NOT NULL,
     sex VARCHAR(50) NOT NULL,

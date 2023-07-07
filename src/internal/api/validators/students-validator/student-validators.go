@@ -1,14 +1,21 @@
 package validators
 
-import dtos "github.com/campushq-official/campushq-api/src/internal/core/domain/dtos/student-dtos"
+import (
+	dtos "github.com/campushq-official/campushq-api/src/internal/core/domain/dtos/student-dtos"
+	repositories "github.com/campushq-official/campushq-api/src/internal/core/infrastructure/postgres/repositories/sqlc"
+)
 
 type StudentValidators interface {
 	StudentSigninValidator(req dtos.StudentSigninDTO) error
 	StudentSignupValidator(req dtos.StudentCreateDTO) error
 }
 
-type studentValidators struct{}
+type studentValidators struct {
+	repository repositories.Store
+}
 
-func NewStudentValidators() StudentValidators {
-	return &studentValidators{}
+func NewStudentValidators(repository repositories.Store) StudentValidators {
+	return &studentValidators{
+		repository: repository,
+	}
 }

@@ -5,7 +5,8 @@ import (
 
 	validators "github.com/campushq-official/campushq-api/src/internal/api/validators/students-validator"
 	"github.com/campushq-official/campushq-api/src/internal/common/logs"
-	services "github.com/campushq-official/campushq-api/src/internal/core/domain/services/auth0-services"
+	auth0Service "github.com/campushq-official/campushq-api/src/internal/core/domain/services/auth0-services"
+	services "github.com/campushq-official/campushq-api/src/internal/core/domain/services/student-services"
 )
 
 type StudentHandler interface {
@@ -14,16 +15,17 @@ type StudentHandler interface {
 }
 
 type studentHandler struct {
-	logger       *logs.Logger
-	auth0Service services.Auth0Service
-	validator    validators.StudentValidators
+	logger         *logs.Logger
+	auth0Service   auth0Service.Auth0Service
+	studentService services.StudentService
+	validator      validators.StudentValidators
 }
 
-func NewStudentHandler(logger *logs.Logger, auth0Service services.Auth0Service) StudentHandler {
-	v := validators.NewStudentValidators()
+func NewStudentHandler(logger *logs.Logger, auth0Service auth0Service.Auth0Service, studentService services.StudentService, validator validators.StudentValidators) StudentHandler {
 	return &studentHandler{
-		logger:       logger,
-		auth0Service: auth0Service,
-		validator:    v,
+		logger:         logger,
+		auth0Service:   auth0Service,
+		validator:      validator,
+		studentService: studentService,
 	}
 }

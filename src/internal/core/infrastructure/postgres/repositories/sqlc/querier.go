@@ -9,6 +9,10 @@ import (
 )
 
 type Querier interface {
+	GetDepartmentById(ctx context.Context, departmentID int32) (Department, error)
+	GetLastInsertedStudentId(ctx context.Context) (int32, error)
+	InsertPersonalInfo(ctx context.Context, arg InsertPersonalInfoParams) error
+	InsertStudent(ctx context.Context, arg InsertStudentParams) (int32, error)
 	SelectAllBuildings(ctx context.Context) ([]Building, error)
 	SelectAllRooms(ctx context.Context) ([]Room, error)
 }

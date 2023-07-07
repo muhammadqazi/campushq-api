@@ -2,7 +2,6 @@ package response
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	validation "github.com/go-ozzo/ozzo-validation"
@@ -38,8 +37,6 @@ func JSONErrorResponse(rw http.ResponseWriter, err error) {
 			Message: err.Error(),
 		})
 	}
-
-	fmt.Println(validationErrors)
 
 	response := errorResponse{
 		Status:  false,

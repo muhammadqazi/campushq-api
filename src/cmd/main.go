@@ -8,10 +8,13 @@ import (
 
 	"github.com/campushq-official/campushq-api/src/internal/api/middlewares"
 	"github.com/campushq-official/campushq-api/src/internal/api/routers"
+	validators "github.com/campushq-official/campushq-api/src/internal/api/validators/students-validator"
 	"github.com/campushq-official/campushq-api/src/internal/common/logs"
 	"github.com/campushq-official/campushq-api/src/internal/common/tracerr"
 	"github.com/campushq-official/campushq-api/src/internal/config"
-	services "github.com/campushq-official/campushq-api/src/internal/core/domain/services/auth0-services"
+	auth0Service "github.com/campushq-official/campushq-api/src/internal/core/domain/services/auth0-services"
+	services "github.com/campushq-official/campushq-api/src/internal/core/domain/services/student-services"
+
 	repositories "github.com/campushq-official/campushq-api/src/internal/core/infrastructure/postgres/repositories/sqlc"
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
@@ -75,8 +78,12 @@ func main() {
 
 	*/
 
-	repositories.NewStore(connPool)
-	auth0Service := services.NewAuth0Service(env)
+	repository := repositories.NewStore(connPool)
+
+	var (
+		auth0Service   = auth0Service.NewAuth0Service(env)
+		studentService = services.NewStudentService(repository)
+	)
 
 	/*
 	   |--------------------------------------------------------------------------
@@ -96,18 +103,32 @@ func main() {
 
 	/*
 	   |--------------------------------------------------------------------------
+	   | Initialize the validators
+	   |--------------------------------------------------------------------------
+	   | Initialize all validators here.
+	   |--------------------------------------------------------------------------
+
+	*/
+
+	var (
+		studentValidator = validators.NewStudentValidators(repository)
+	)
+
+	/*
+	   |--------------------------------------------------------------------------
 	   | Router initialization
 	   |--------------------------------------------------------------------------
 	   | Initialize and register all routers here.
 	   |--------------------------------------------------------------------------
 
 	*/
+	var (
+		studentRouter    = routers.NewStudentRouter(r, logger, auth0Service, studentService, studentValidator)
+		departmentRouter = routers.NewDepartmentRouter(r, logger)
+	)
 
-	studentRouter := routers.NewStudentRouter(r, logger, auth0Service)
-	departmentRouter := routers.NewDepartmentRouter(r, logger)
-
-	departmentRouter.DepartmentRouter()
 	studentRouter.StudentRouter()
+	departmentRouter.DepartmentRouter()
 
 	/*
 	   |--------------------------------------------------------------------------
