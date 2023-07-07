@@ -33,6 +33,6 @@ func (r *studentRouter) StudentRouter() {
 	h := handlers.NewStudentHandler(r.logger, r.auth0Service, r.studentService, r.studentValidator)
 
 	router := r.router
-	router.HandleFunc("/student/signin", middlewares.Auth0Authorization("student.read", r.logger, h.StudentSignin)).Methods("POST")
+	router.HandleFunc("/student/signin", h.StudentSignin).Methods("POST")
 	router.HandleFunc("/student/signup", middlewares.Auth0Authorization("student.create", r.logger, h.StudentSignup)).Methods("POST")
 }

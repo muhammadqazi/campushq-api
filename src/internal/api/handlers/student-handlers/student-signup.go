@@ -54,6 +54,7 @@ func (l *studentHandler) StudentSignup(rw http.ResponseWriter, r *http.Request) 
 
 	}
 
+	response.JSONMessageResponse(rw, http.StatusInternalServerError, "Internal server error.")
 	l.logger.PrintHTTPResponse(r, http.StatusInternalServerError, "Internal server error.")
 
 }

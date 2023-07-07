@@ -37,6 +37,21 @@ const (
 
 func (a *Auth0Middleware) Auth0Authentication(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
+
+		/*
+			"""
+			Do not validate the token if the route is in the exceptions list.
+			"""
+		*/
+		route := r.URL.Path
+		exceptions := []string{"signin", "forgot-password"}
+		for _, exception := range exceptions {
+			if strings.Contains(route, exception) {
+				next.ServeHTTP(rw, r)
+				return
+			}
+		}
+
 		issuerURL, err := url.Parse("https://" + a.config.AUTH0_DOMAIN + "/")
 		if err != nil {
 			err = tracerr.Wrap(err)

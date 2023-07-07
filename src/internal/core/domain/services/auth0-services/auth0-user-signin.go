@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/campushq-official/campushq-api/src/internal/common/tracerr"
 	dtos "github.com/campushq-official/campushq-api/src/internal/core/domain/dtos/student-dtos"
@@ -16,6 +17,8 @@ func (s *auth0Service) Auth0UserSignin(req dtos.StudentSigninDTO) (string, error
 	req.ClientSecret = s.ClientSecret
 	req.GrantType = "password"
 	req.Scope = "read:sample"
+	username := fmt.Sprintf("student-%s", req.Username)
+	req.Username = username
 
 	err := requests.
 		URL("/oauth/token").
