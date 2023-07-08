@@ -19,7 +19,6 @@ func (l *studentHandler) StudentSignup(rw http.ResponseWriter, r *http.Request) 
 	}
 
 	if err := l.validator.StudentSignupValidator(req); err != nil {
-		fmt.Println(err)
 		response.JSONErrorResponse(rw, err)
 		l.logger.PrintHTTPResponse(r, http.StatusBadRequest, "validationErrors")
 		return

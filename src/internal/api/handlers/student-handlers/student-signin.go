@@ -16,6 +16,12 @@ func (l *studentHandler) StudentSignin(rw http.ResponseWriter, r *http.Request) 
 		return
 	}
 
+	if err := l.validator.StudentSigninValidator(req); err != nil {
+		response.JSONErrorResponse(rw, err)
+		l.logger.PrintHTTPResponse(r, http.StatusBadRequest, "validationErrors")
+		return
+	}
+
 	if token, err := l.auth0Service.Auth0UserSignin(req); err == nil {
 
 		data := map[string]interface{}{

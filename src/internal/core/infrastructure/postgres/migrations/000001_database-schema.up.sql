@@ -120,7 +120,6 @@ CREATE TABLE students (
     status VARCHAR(50) NOT NULL,
     access_status VARCHAR(50) NOT NULL,
     acceptance_type VARCHAR(50) NOT NULL,
-    semester VARCHAR(50) NOT NULL,
     graduation_date TIMESTAMP,
     supervisor_id INT,
     department_id INT,
@@ -221,7 +220,6 @@ CREATE TABLE personal_information (
 
     student_id INT NULL,
     staff_id INT NULL,
-    is_staff BOOLEAN NOT NULL DEFAULT FALSE,
 
     updated_at TIMESTAMP NULL,
 

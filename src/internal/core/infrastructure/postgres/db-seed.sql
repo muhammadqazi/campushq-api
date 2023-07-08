@@ -59,18 +59,18 @@ VALUES
    ('Medicine', 'MED', 'Description for Medicine Department', 12, 'med@university.edu', '+7788990011', 6000, 5, 5);
 
 -- Insert records for table `students`
-INSERT INTO students (student_id, first_name, surname, sex, role, status, access_status, acceptance_type, semester, graduation_date, supervisor_id, department_id, created_at, updated_at, is_active)
+INSERT INTO students (student_id, first_name, surname, sex, role, status, access_status, acceptance_type, graduation_date, supervisor_id, department_id, created_at, updated_at, is_active)
 VALUES
-   (21906778, 'John', 'Doe', 'Male', 'Student', 'Active', 'Allowed', 'Accepted', 'Fall 2022', NULL, 1, 1, NOW(), NOW(), true),
-   (21906779, 'Jane', 'Smith', 'Female', 'Student', 'Active', 'Allowed', 'Accepted', 'Spring 2023', NULL, 2, 2, NOW(), NOW(), true),
-   (21906710, 'Robert', 'Johnson', 'Male', 'Student', 'Active', 'Allowed', 'Accepted', 'Fall 2021', NULL, 3, 3, NOW(), NOW(), true),
-   (21906711, 'Emily', 'Wilson', 'Female', 'Student', 'Active', 'Allowed', 'Accepted', 'Spring 2024', NULL, 4, 4, NOW(), NOW(), true),
-   (21906712, 'Michael', 'Brown', 'Male', 'Student', 'Active', 'Allowed', 'Accepted', 'Fall 2022', NULL, 5, 5, NOW(), NOW(), true),
-   (21906713, 'Sophia', 'Miller', 'Female', 'Student', 'Active', 'Allowed', 'Accepted', 'Spring 2023', NULL, 6, 1, NOW(), NOW(), true),
-   (21906714, 'David', 'Anderson', 'Male', 'Student', 'Active', 'Allowed', 'Accepted', 'Fall 2021', NULL, 7, 2, NOW(), NOW(), true),
-   (21906715, 'Olivia', 'Clark', 'Female', 'Student', 'Active', 'Allowed', 'Accepted', 'Spring 2024', NULL, 8, 3, NOW(), NOW(), true),
-   (21906716, 'William', 'Thompson', 'Male', 'Student', 'Active', 'Allowed', 'Accepted', 'Fall 2022', NULL, 9, 4, NOW(), NOW(), true),
-   (21906717, 'Ava', 'Hall', 'Female', 'Student', 'Active', 'Allowed', 'Accepted', 'Spring 2023', NULL, 10, 5, NOW(), NOW(), true);
+   (21906778, 'John', 'Doe', 'Male', 'Student', 'Active', 'Allowed', 'Accepted', NULL, 1, 1, NOW(), NOW(), true),
+   (21906779, 'Jane', 'Smith', 'Female', 'Student', 'Active', 'Allowed', 'Accepted', NULL, 2, 2, NOW(), NOW(), true),
+   (21906710, 'Robert', 'Johnson', 'Male', 'Student', 'Active', 'Allowed', 'Accepted', NULL, 3, 3, NOW(), NOW(), true),
+   (21906711, 'Emily', 'Wilson', 'Female', 'Student', 'Active', 'Allowed', 'Accepted', NULL, 4, 4, NOW(), NOW(), true),
+   (21906712, 'Michael', 'Brown', 'Male', 'Student', 'Active', 'Allowed', 'Accepted', NULL, 5, 5, NOW(), NOW(), true),
+   (21906713, 'Sophia', 'Miller', 'Female', 'Student', 'Active', 'Allowed', 'Accepted', NULL, 6, 1, NOW(), NOW(), true),
+   (21906714, 'David', 'Anderson', 'Male', 'Student', 'Active', 'Allowed', 'Accepted', NULL, 7, 2, NOW(), NOW(), true),
+   (21906715, 'Olivia', 'Clark', 'Female', 'Student', 'Active', 'Allowed', 'Accepted', NULL, 8, 3, NOW(), NOW(), true),
+   (21906716, 'William', 'Thompson', 'Male', 'Student', 'Active', 'Allowed', 'Accepted', NULL, 9, 4, NOW(), NOW(), true),
+   (21906717, 'Ava', 'Hall', 'Female', 'Student', 'Active', 'Allowed', 'Accepted', NULL, 10, 5, NOW(), NOW(), true);
 
 -- Insert records for table `student_accounts`
 INSERT INTO student_accounts (scholarship_percentage, discount_percentage, discount_type, total_debt, student_id)
@@ -115,15 +115,15 @@ VALUES
    (NOW(), 1400, 'Credit Card', 'Payment towards tuition fees', 'Pending', 10);
 
 -- Insert records for table `personal_information`
-INSERT INTO personal_information (nationality, city, address, dob, place_of_birth, local_address, guardian_phone_number, local_phone_number, father_name, mother_name, passport_number, passport_issue_date, passport_expiry_date, passport_issue_place, passport_issuing_authority, id_card_number, student_id, staff_id, is_staff)
+INSERT INTO personal_information (nationality, city, address, dob, place_of_birth, local_address, guardian_phone_number, local_phone_number, father_name, mother_name, passport_number, passport_issue_date, passport_expiry_date, passport_issue_place, passport_issuing_authority, id_card_number, student_id, staff_id)
 VALUES
-   ('USA', 'New York', '123 ABC Street', '1995-06-15', 'New York', '456 XYZ Street', '1234567890', '9876543210', 'John Doe', 'Jane Doe', 'A1234567', '2022-01-01', '2027-01-01', 'New York', 'US Government', '1234567890', 21906778, NULL, false),
-    ('USA', 'Los Angeles', '456 XYZ Street', '1996-03-12', 'Los Angeles', '789 PQR Street', '9876543210', '1234567890', 'Michael Smith', 'Emily Smith', 'B2345678', '2022-02-01', '2027-02-01', 'Los Angeles', 'US Government', '9876543210', 21906779, NULL, false),
-    ('USA', 'Chicago', '789 PQR Street', '1997-09-18', 'Chicago', '123 ABC Street', '1234567890', '9876543210', 'Robert Johnson', 'Emma Johnson', 'C9876543', '2022-03-01', '2027-03-01', 'Chicago', 'US Government', '1234567890', 21906710, NULL, false),
-    ('USA', 'Houston', '321 DEF Street', '1998-12-05', 'Houston', '654 LMN Street', '9876543210', '1234567890', 'William Davis', 'Olivia Davis', 'D8765432', '2022-04-01', '2027-04-01', 'Houston', 'US Government', '9876543210', 21906711, NULL, false),
-    ('USA', 'San Francisco', '654 LMN Street', '1999-07-22', 'San Francisco', '987 QWE Street', '1234567890', '9876543210', 'David Anderson', 'Sophia Anderson', 'E7654321', '2022-05-01', '2027-05-01', 'San Francisco', 'US Government', '1234567890', 21906712, NULL, false),
-    ('USA', 'New York', '123 ABC Street', '1995-06-15', 'New York', '456 XYZ Street', '1234567890', '9876543210', 'John Doe', 'Jane Doe', 'A1234567', '2022-01-01', '2027-01-01', 'New York', 'US Government', '1234567890', 21906713, NULL, false),
-    ('USA', 'Los Angeles', '456 XYZ Street', '1996-03-12', 'Los Angeles', '789 PQR Street', '9876543210', '1234567890', 'Michael Smith', 'Emily Smith', 'B2345678', '2022-02-01', '2027-02-01', 'Los Angeles', 'US Government', '9876543210', 21906714, NULL, false),
-    ('USA', 'Chicago', '789 PQR Street', '1997-09-18', 'Chicago', '123 ABC Street', '1234567890', '9876543210', 'Robert Johnson', 'Emma Johnson', 'C9876543', '2022-03-01', '2027-03-01', 'Chicago', 'US Government', '1234567890', 21906715, NULL, false),
-    ('USA', 'Houston', '321 DEF Street', '1998-12-05', 'Houston', '654 LMN Street', '9876543210', '1234567890', 'William Davis', 'Olivia Davis', 'D8765432', '2022-04-01', '2027-04-01', 'Houston', 'US Government', '9876543210', 21906716, NULL, false),
-    ('USA', 'San Francisco', '654 LMN Street', '1999-07-22', 'San Francisco', '987 QWE Street', '1234567890', '9876543210', 'David Anderson', 'Sophia Anderson', 'E7654321', '2022-05-01', '2027-05-01', 'San Francisco', 'US Government', '1234567890', 21906717, NULL, false);
+   ('USA', 'New York', '123 ABC Street', '1995-06-15', 'New York', '456 XYZ Street', '1234567890', '9876543210', 'John Doe', 'Jane Doe', 'A1234567', '2022-01-01', '2027-01-01', 'New York', 'US Government', '1234567890', 21906778, NULL),
+    ('USA', 'Los Angeles', '456 XYZ Street', '1996-03-12', 'Los Angeles', '789 PQR Street', '9876543210', '1234567890', 'Michael Smith', 'Emily Smith', 'B2345678', '2022-02-01', '2027-02-01', 'Los Angeles', 'US Government', '9876543210', 21906779, NULL),
+    ('USA', 'Chicago', '789 PQR Street', '1997-09-18', 'Chicago', '123 ABC Street', '1234567890', '9876543210', 'Robert Johnson', 'Emma Johnson', 'C9876543', '2022-03-01', '2027-03-01', 'Chicago', 'US Government', '1234567890', 21906710, NULL),
+    ('USA', 'Houston', '321 DEF Street', '1998-12-05', 'Houston', '654 LMN Street', '9876543210', '1234567890', 'William Davis', 'Olivia Davis', 'D8765432', '2022-04-01', '2027-04-01', 'Houston', 'US Government', '9876543210', 21906711, NULL),
+    ('USA', 'San Francisco', '654 LMN Street', '1999-07-22', 'San Francisco', '987 QWE Street', '1234567890', '9876543210', 'David Anderson', 'Sophia Anderson', 'E7654321', '2022-05-01', '2027-05-01', 'San Francisco', 'US Government', '1234567890', 21906712, NULL),
+    ('USA', 'New York', '123 ABC Street', '1995-06-15', 'New York', '456 XYZ Street', '1234567890', '9876543210', 'John Doe', 'Jane Doe', 'A1234567', '2022-01-01', '2027-01-01', 'New York', 'US Government', '1234567890', 21906713, NULL),
+    ('USA', 'Los Angeles', '456 XYZ Street', '1996-03-12', 'Los Angeles', '789 PQR Street', '9876543210', '1234567890', 'Michael Smith', 'Emily Smith', 'B2345678', '2022-02-01', '2027-02-01', 'Los Angeles', 'US Government', '9876543210', 21906714, NULL),
+    ('USA', 'Chicago', '789 PQR Street', '1997-09-18', 'Chicago', '123 ABC Street', '1234567890', '9876543210', 'Robert Johnson', 'Emma Johnson', 'C9876543', '2022-03-01', '2027-03-01', 'Chicago', 'US Government', '1234567890', 21906715, NULL),
+    ('USA', 'Houston', '321 DEF Street', '1998-12-05', 'Houston', '654 LMN Street', '9876543210', '1234567890', 'William Davis', 'Olivia Davis', 'D8765432', '2022-04-01', '2027-04-01', 'Houston', 'US Government', '9876543210', 21906716, NULL),
+    ('USA', 'San Francisco', '654 LMN Street', '1999-07-22', 'San Francisco', '987 QWE Street', '1234567890', '9876543210', 'David Anderson', 'Sophia Anderson', 'E7654321', '2022-05-01', '2027-05-01', 'San Francisco', 'US Government', '1234567890', 21906717, NULL);

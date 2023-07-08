@@ -22,6 +22,33 @@ func (q *Queries) GetLastInsertedStudentId(ctx context.Context) (int32, error) {
 	return student_id, err
 }
 
+const getStudentById = `-- name: GetStudentById :one
+SELECT student_id, first_name, surname, sex, role, status, access_status, acceptance_type, graduation_date, supervisor_id, department_id, created_at, updated_at, deleted_at, is_active FROM students WHERE student_id = $1
+`
+
+func (q *Queries) GetStudentById(ctx context.Context, studentID int32) (Student, error) {
+	row := q.db.QueryRow(ctx, getStudentById, studentID)
+	var i Student
+	err := row.Scan(
+		&i.StudentID,
+		&i.FirstName,
+		&i.Surname,
+		&i.Sex,
+		&i.Role,
+		&i.Status,
+		&i.AccessStatus,
+		&i.AcceptanceType,
+		&i.GraduationDate,
+		&i.SupervisorID,
+		&i.DepartmentID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.DeletedAt,
+		&i.IsActive,
+	)
+	return i, err
+}
+
 const insertStudent = `-- name: InsertStudent :one
 INSERT INTO students (
     student_id,
@@ -32,7 +59,6 @@ INSERT INTO students (
     status,
     access_status,
     acceptance_type,
-    semester,
     department_id
 ) VALUES (
     $1,
@@ -43,8 +69,7 @@ INSERT INTO students (
     $6,
     $7,
     $8,
-    $9,
-    $10
+    $9
 ) RETURNING student_id
 `
 
@@ -57,7 +82,6 @@ type InsertStudentParams struct {
 	Status         string      `json:"status"`
 	AccessStatus   string      `json:"access_status"`
 	AcceptanceType string      `json:"acceptance_type"`
-	Semester       string      `json:"semester"`
 	DepartmentID   pgtype.Int4 `json:"department_id"`
 }
 
@@ -71,10 +95,50 @@ func (q *Queries) InsertStudent(ctx context.Context, arg InsertStudentParams) (i
 		arg.Status,
 		arg.AccessStatus,
 		arg.AcceptanceType,
-		arg.Semester,
 		arg.DepartmentID,
 	)
 	var student_id int32
 	err := row.Scan(&student_id)
 	return student_id, err
+}
+
+const updateStudent = `-- name: UpdateStudent :exec
+UPDATE 
+    students
+SET
+    first_name = COALESCE($2, first_name),
+    surname = COALESCE($3, surname),
+    role = COALESCE($4, role),
+    status = COALESCE($5, status),
+    access_status = COALESCE($6, access_status),
+    department_id = COALESCE($7, department_id),
+    supervisor_id = COALESCE($8, supervisor_id),
+    updated_at = CURRENT_TIMESTAMP
+WHERE
+    student_id = $1
+`
+
+type UpdateStudentParams struct {
+	StudentID    int32       `json:"student_id"`
+	FirstName    pgtype.Text `json:"first_name"`
+	Surname      pgtype.Text `json:"surname"`
+	Role         pgtype.Text `json:"role"`
+	Status       pgtype.Text `json:"status"`
+	AccessStatus pgtype.Text `json:"access_status"`
+	DepartmentID pgtype.Int4 `json:"department_id"`
+	SupervisorID pgtype.Int4 `json:"supervisor_id"`
+}
+
+func (q *Queries) UpdateStudent(ctx context.Context, arg UpdateStudentParams) error {
+	_, err := q.db.Exec(ctx, updateStudent,
+		arg.StudentID,
+		arg.FirstName,
+		arg.Surname,
+		arg.Role,
+		arg.Status,
+		arg.AccessStatus,
+		arg.DepartmentID,
+		arg.SupervisorID,
+	)
+	return err
 }

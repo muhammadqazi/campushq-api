@@ -125,10 +125,10 @@ CREATE TABLE students (
     supervisor_id INT,
     department_id INT,
 
-    created_at TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP NOT NULL,
-    deleted_at TIMESTAMP,
-    is_active BOOLEAN,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NULL,
+    deleted_at TIMESTAMP NULL,
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
 
    CONSTRAINT fk_student_supervisor_id FOREIGN KEY(supervisor_id) REFERENCES staffs(staff_id),
    CONSTRAINT fk_student_department_id FOREIGN KEY(department_id) REFERENCES departments(department_id)
@@ -202,8 +202,8 @@ CREATE TABLE student_payments (
 CREATE TABLE personal_information (
     pid SERIAL PRIMARY KEY,
     nationality VARCHAR(50) NOT NULL,
-    city VARCHAR(50) NULL,
-    address VARCHAR(50) NULL,
+    city VARCHAR(50) NOT NULL,
+    address VARCHAR(50) NOT NULL,
     dob DATE NOT NULL,
     place_of_birth VARCHAR(50) NOT NULL,
     local_address VARCHAR(50) NULL,
@@ -221,7 +221,6 @@ CREATE TABLE personal_information (
 
     student_id INT NULL,
     staff_id INT NULL,
-    is_staff BOOLEAN NOT NULL DEFAULT FALSE,
 
     updated_at TIMESTAMP NULL,
 

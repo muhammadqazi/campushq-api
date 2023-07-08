@@ -25,7 +25,7 @@ func (s *studentService) StudentSignup(req *dtos.StudentCreateDTO) (int32, error
 		return 0, err
 	}
 
-	personalInfoEntity := mappers.PersonalInfoCreateMapper(*req, pgtype.Int4{Int32: insertedStudentId, Valid: true})
+	personalInfoEntity := mappers.StudentPersonalInfoCreateMapper(*req, pgtype.Int4{Int32: insertedStudentId, Valid: true})
 
 	if err = s.repository.InsertPersonalInfo(ctx, *personalInfoEntity); err != nil {
 		fmt.Println("we here 3", err)
