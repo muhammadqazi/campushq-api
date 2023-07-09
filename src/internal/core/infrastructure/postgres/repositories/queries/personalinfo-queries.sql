@@ -29,27 +29,26 @@ INSERT INTO personal_information (
     $13
 );
 
--- name: UpdatePersonalInfo :exec
+-- name: UpdateStudentPersonalInfo :exec
 UPDATE personal_information
 SET 
-    nationality = COALESCE($2, nationality),
-    city = COALESCE($3, city),
-    address = COALESCE($4, address),
-    dob = COALESCE($5, dob),
-    place_of_birth = COALESCE($6, place_of_birth),
-    local_address = COALESCE($7, local_address),
-    father_name = COALESCE($7, father_name),
-    mother_name = COALESCE($8, mother_name),
-    guardian_phone_number = COALESCE($9, guardian_phone_number),
-    local_phone_number = COALESCE($10, local_phone_number),
-    passport_number = COALESCE($11, passport_number),
-    passport_issue_date = COALESCE($12, passport_issue_date),
-    passport_expiry_date = COALESCE($13, passport_expiry_date),
-    passport_issuing_authority = COALESCE($14, passport_issuing_authority),
-    id_card_number = COALESCE($15, id_card_number),
-    student_id = COALESCE($16, student_id),
-    staff_id = COALESCE($17, staff_id),
+    nationality = COALESCE(sqlc.narg(nationality), nationality),
+    city = COALESCE(sqlc.narg(city), city),
+    address = COALESCE(sqlc.narg(address), address),
+    dob = COALESCE(sqlc.narg(dob), dob),
+    place_of_birth = COALESCE(sqlc.narg(place_of_birth), place_of_birth),
+    local_address = COALESCE(sqlc.narg(local_address), local_address),
+    father_name = COALESCE(sqlc.narg(father_name), father_name),
+    mother_name = COALESCE(sqlc.narg(mother_name), mother_name),
+    guardian_phone_number = COALESCE(sqlc.narg(guardian_phone_number), guardian_phone_number),
+    local_phone_number = COALESCE(sqlc.narg(local_phone_number), local_phone_number),
+    passport_number = COALESCE(sqlc.narg(passport_number), passport_number),
+    passport_issue_date = COALESCE(sqlc.narg(passport_issue_date), passport_issue_date),
+    passport_expiry_date = COALESCE(sqlc.narg(passport_expiry_date), passport_expiry_date),
+    passport_issuing_authority = COALESCE(sqlc.narg(passport_issuing_authority), passport_issuing_authority),
+    id_card_number = COALESCE(sqlc.narg(id_card_number), id_card_number),
     updated_at = CURRENT_TIMESTAMP
-WHERE pid = $1;
+WHERE
+    student_id = $1;
 
     

@@ -16,8 +16,8 @@ type Querier interface {
 	InsertStudent(ctx context.Context, arg InsertStudentParams) (int32, error)
 	SelectAllBuildings(ctx context.Context) ([]Building, error)
 	SelectAllRooms(ctx context.Context) ([]Room, error)
-	UpdatePersonalInfo(ctx context.Context, arg UpdatePersonalInfoParams) error
 	UpdateStudent(ctx context.Context, arg UpdateStudentParams) error
+	UpdateStudentPersonalInfo(ctx context.Context, arg UpdateStudentPersonalInfoParams) error
 }
 
 var _ Querier = (*Queries)(nil)

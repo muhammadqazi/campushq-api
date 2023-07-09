@@ -4,6 +4,7 @@ import (
 	"context"
 
 	dtos "github.com/campushq-official/campushq-api/src/internal/core/domain/dtos/student-dtos"
+	personalInfo "github.com/campushq-official/campushq-api/src/internal/core/infrastructure/postgres/mappers/personalinfo-mappers"
 	mappers "github.com/campushq-official/campushq-api/src/internal/core/infrastructure/postgres/mappers/student-mappers"
 )
 
@@ -12,6 +13,12 @@ func (s *studentService) StudentModifyByID(req *dtos.StudentPatchDTO, id string)
 
 	studentEntity := mappers.StudentPatchMapper(*req, id)
 	err := s.repository.UpdateStudent(ctx, *studentEntity)
+	if err != nil {
+		return err
+	}
+
+	personalInfoEntity := personalInfo.StudentPersonalInfoPatchMapper(*req, id)
+	err = s.repository.UpdateStudentPersonalInfo(ctx, *personalInfoEntity)
 	if err != nil {
 		return err
 	}
