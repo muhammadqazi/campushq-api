@@ -62,8 +62,8 @@ func (l *Logger) PrintHTTPRequest() {
 			log.Println(postColor("[POST - Request] " + color.BlueString(l.httpRequest.URL.Path) + " " + userAgent))
 		case http.MethodGet:
 			log.Println(getColor("[GET - Request] " + color.BlueString(l.httpRequest.URL.Path) + " " + userAgent))
-		case http.MethodPut:
-			log.Println(putColor("[PUT - Request] " + color.BlueString(l.httpRequest.URL.Path) + " " + userAgent))
+		case http.MethodPatch:
+			log.Println(putColor("[PATCH - Request] " + color.BlueString(l.httpRequest.URL.Path) + " " + userAgent))
 		case http.MethodDelete:
 			log.Println(deleteColor("[DELETE - Request] " + color.BlueString(l.httpRequest.URL.Path) + " " + userAgent))
 		default:
@@ -79,8 +79,8 @@ func (l *Logger) PrintHTTPResponse(r *http.Request, status int, message string) 
 			log.Println(postColor("[POST - Response] " + color.BlueString(r.URL.Path) + " " + debugColor(fmt.Sprint(status)) + " " + message))
 		case http.MethodGet:
 			log.Println(getColor("[GET - Response] " + color.BlueString(r.URL.Path) + " " + debugColor(fmt.Sprint(status)) + " " + message))
-		case http.MethodPut:
-			log.Println(putColor("[PUT - Response] " + color.BlueString(r.URL.Path) + " " + debugColor(fmt.Sprint(status)) + " " + message))
+		case http.MethodPatch:
+			log.Println(putColor("[PATCH - Response] " + color.BlueString(r.URL.Path) + " " + debugColor(fmt.Sprint(status)) + " " + message))
 		case http.MethodDelete:
 			log.Println(deleteColor("[DELETE - Response] " + color.BlueString(r.URL.Path) + " " + debugColor(fmt.Sprint(status)) + " " + message))
 		default:

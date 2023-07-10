@@ -25,8 +25,7 @@ INSERT INTO personal_information (
     passport_issue_date,
     passport_expiry_date,
     passport_issuing_authority,
-    student_id,
-    is_staff
+    student_id
 ) VALUES (
     $1,
     $2,
@@ -40,8 +39,7 @@ INSERT INTO personal_information (
     $10,
     $11,
     $12,
-    $13,
-    $14
+    $13
 )
 `
 
@@ -59,7 +57,6 @@ type InsertPersonalInfoParams struct {
 	PassportExpiryDate       pgtype.Date `json:"passport_expiry_date"`
 	PassportIssuingAuthority string      `json:"passport_issuing_authority"`
 	StudentID                pgtype.Int4 `json:"student_id"`
-	IsStaff                  bool        `json:"is_staff"`
 }
 
 func (q *Queries) InsertPersonalInfo(ctx context.Context, arg InsertPersonalInfoParams) error {
@@ -77,7 +74,70 @@ func (q *Queries) InsertPersonalInfo(ctx context.Context, arg InsertPersonalInfo
 		arg.PassportExpiryDate,
 		arg.PassportIssuingAuthority,
 		arg.StudentID,
-		arg.IsStaff,
+	)
+	return err
+}
+
+const updateStudentPersonalInfo = `-- name: UpdateStudentPersonalInfo :exec
+UPDATE personal_information
+SET 
+    nationality = COALESCE($2, nationality),
+    city = COALESCE($3, city),
+    address = COALESCE($4, address),
+    dob = COALESCE($5, dob),
+    place_of_birth = COALESCE($6, place_of_birth),
+    local_address = COALESCE($7, local_address),
+    father_name = COALESCE($8, father_name),
+    mother_name = COALESCE($9, mother_name),
+    guardian_phone_number = COALESCE($10, guardian_phone_number),
+    local_phone_number = COALESCE($11, local_phone_number),
+    passport_number = COALESCE($12, passport_number),
+    passport_issue_date = COALESCE($13, passport_issue_date),
+    passport_expiry_date = COALESCE($14, passport_expiry_date),
+    passport_issuing_authority = COALESCE($15, passport_issuing_authority),
+    id_card_number = COALESCE($16, id_card_number),
+    updated_at = CURRENT_TIMESTAMP
+WHERE
+    student_id = $1
+`
+
+type UpdateStudentPersonalInfoParams struct {
+	StudentID                pgtype.Int4 `json:"student_id"`
+	Nationality              pgtype.Text `json:"nationality"`
+	City                     pgtype.Text `json:"city"`
+	Address                  pgtype.Text `json:"address"`
+	Dob                      pgtype.Date `json:"dob"`
+	PlaceOfBirth             pgtype.Text `json:"place_of_birth"`
+	LocalAddress             pgtype.Text `json:"local_address"`
+	FatherName               pgtype.Text `json:"father_name"`
+	MotherName               pgtype.Text `json:"mother_name"`
+	GuardianPhoneNumber      pgtype.Text `json:"guardian_phone_number"`
+	LocalPhoneNumber         pgtype.Text `json:"local_phone_number"`
+	PassportNumber           pgtype.Text `json:"passport_number"`
+	PassportIssueDate        pgtype.Date `json:"passport_issue_date"`
+	PassportExpiryDate       pgtype.Date `json:"passport_expiry_date"`
+	PassportIssuingAuthority pgtype.Text `json:"passport_issuing_authority"`
+	IDCardNumber             pgtype.Text `json:"id_card_number"`
+}
+
+func (q *Queries) UpdateStudentPersonalInfo(ctx context.Context, arg UpdateStudentPersonalInfoParams) error {
+	_, err := q.db.Exec(ctx, updateStudentPersonalInfo,
+		arg.StudentID,
+		arg.Nationality,
+		arg.City,
+		arg.Address,
+		arg.Dob,
+		arg.PlaceOfBirth,
+		arg.LocalAddress,
+		arg.FatherName,
+		arg.MotherName,
+		arg.GuardianPhoneNumber,
+		arg.LocalPhoneNumber,
+		arg.PassportNumber,
+		arg.PassportIssueDate,
+		arg.PassportExpiryDate,
+		arg.PassportIssuingAuthority,
+		arg.IDCardNumber,
 	)
 	return err
 }

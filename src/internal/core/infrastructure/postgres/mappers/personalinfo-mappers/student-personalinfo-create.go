@@ -6,7 +6,8 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-func PersonalInfoCreateMapper(req dtos.StudentCreateDTO, insertedStudentId pgtype.Int4) *repositories.InsertPersonalInfoParams {
+func StudentPersonalInfoCreateMapper(req dtos.StudentCreateDTO, insertedStudentId pgtype.Int4) *repositories.InsertPersonalInfoParams {
+	// to insert null pgtype.Int4{Int32: 0, Valid: false}
 	return &repositories.InsertPersonalInfoParams{
 		Nationality:              req.Nationality,
 		City:                     req.City,
@@ -21,6 +22,5 @@ func PersonalInfoCreateMapper(req dtos.StudentCreateDTO, insertedStudentId pgtyp
 		PassportExpiryDate:       req.PassportExpiryDate,
 		PassportIssuingAuthority: req.PassportIssueAuthority,
 		StudentID:                insertedStudentId,
-		IsStaff:                  false,
 	}
 }

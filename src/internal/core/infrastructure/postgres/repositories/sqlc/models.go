@@ -69,7 +69,6 @@ type PersonalInformation struct {
 	IDCardNumber             pgtype.Text      `json:"id_card_number"`
 	StudentID                pgtype.Int4      `json:"student_id"`
 	StaffID                  pgtype.Int4      `json:"staff_id"`
-	IsStaff                  bool             `json:"is_staff"`
 	UpdatedAt                pgtype.Timestamp `json:"updated_at"`
 }
 
@@ -109,7 +108,6 @@ type Student struct {
 	Status         string           `json:"status"`
 	AccessStatus   string           `json:"access_status"`
 	AcceptanceType string           `json:"acceptance_type"`
-	Semester       string           `json:"semester"`
 	GraduationDate pgtype.Timestamp `json:"graduation_date"`
 	SupervisorID   pgtype.Int4      `json:"supervisor_id"`
 	DepartmentID   pgtype.Int4      `json:"department_id"`

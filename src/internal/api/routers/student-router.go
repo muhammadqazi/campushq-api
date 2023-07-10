@@ -35,4 +35,5 @@ func (r *studentRouter) StudentRouter() {
 	router := r.router
 	router.HandleFunc("/student/signin", h.StudentSignin).Methods("POST")
 	router.HandleFunc("/student/signup", middlewares.Auth0Authorization("student.create", r.logger, h.StudentSignup)).Methods("POST")
+	router.HandleFunc("/student/{student-id}", middlewares.Auth0Authorization("student.update", r.logger, h.StudentPatchByID)).Methods("PATCH")
 }

@@ -11,10 +11,13 @@ import (
 type Querier interface {
 	GetDepartmentById(ctx context.Context, departmentID int32) (Department, error)
 	GetLastInsertedStudentId(ctx context.Context) (int32, error)
+	GetStudentById(ctx context.Context, studentID int32) (Student, error)
 	InsertPersonalInfo(ctx context.Context, arg InsertPersonalInfoParams) error
 	InsertStudent(ctx context.Context, arg InsertStudentParams) (int32, error)
 	SelectAllBuildings(ctx context.Context) ([]Building, error)
 	SelectAllRooms(ctx context.Context) ([]Room, error)
+	UpdateStudent(ctx context.Context, arg UpdateStudentParams) error
+	UpdateStudentPersonalInfo(ctx context.Context, arg UpdateStudentPersonalInfoParams) error
 }
 
 var _ Querier = (*Queries)(nil)
