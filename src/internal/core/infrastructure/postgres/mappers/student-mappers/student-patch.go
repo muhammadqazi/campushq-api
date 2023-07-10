@@ -10,6 +10,7 @@ import (
 
 func StudentPatchMapper(req dtos.StudentPatchDTO, id string) *repositories.UpdateStudentParams {
 	studentId, _ := strconv.ParseInt(id, 10, 32)
+
 	studentEntity := repositories.UpdateStudentParams{
 		StudentID:    int32(studentId),
 		FirstName:    utils.GetNullableText(req.FirstName),
@@ -17,8 +18,8 @@ func StudentPatchMapper(req dtos.StudentPatchDTO, id string) *repositories.Updat
 		Role:         utils.GetNullableText(req.Role),
 		Status:       utils.GetNullableText(req.Status),
 		AccessStatus: utils.GetNullableText(req.AccessStatus),
-		DepartmentID: utils.GetNullableInt(req.DepartmentID),
-		SupervisorID: utils.GetNullableInt(req.SupervisorID),
+		DepartmentID: utils.GetNullableInt(int32(req.DepartmentID.Int32)),
+		SupervisorID: utils.GetNullableInt(int32(req.SupervisorID.Int32)),
 	}
 	return &studentEntity
 }

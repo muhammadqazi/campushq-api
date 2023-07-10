@@ -8,8 +8,8 @@ type StudentPatchDTO struct {
 	Role                     string      `json:"role,omitempty"`
 	Status                   string      `json:"status,omitempty"`
 	AccessStatus             string      `json:"accessStatus,omitempty"`
-	DepartmentID             int         `json:"departmentId,omitempty"`
-	SupervisorID             int         `json:"supervisorId,omitempty"`
+	DepartmentID             pgtype.Int4 `json:"departmentId,omitempty"`
+	SupervisorID             pgtype.Int4 `json:"supervisorId,omitempty"`
 	Nationality              string      `json:"nationality,omitempty"`
 	City                     string      `json:"city,omitempty"`
 	Address                  string      `json:"address,omitempty"`

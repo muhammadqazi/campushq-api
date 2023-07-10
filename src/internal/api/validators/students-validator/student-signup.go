@@ -17,8 +17,8 @@ func (v *studentValidators) StudentSignupValidator(req dtos.StudentCreateDTO) er
 		validation.Field(&req.Email, validation.Required, is.Email, validation.Length(3, 255)),
 		validation.Field(&req.FirstName, validation.Required, validation.Length(1, 50)),
 		validation.Field(&req.Surname, validation.Required, validation.Length(1, 50)),
-		validation.Field(&req.Sex, validation.Required, validation.In("male", "female")),
-		validation.Field(&req.Role, validation.Required, validation.In("student", "teacher")),
+		validation.Field(&req.Sex, validation.Required, validation.In("male", "female")),      // tood: make this an enum
+		validation.Field(&req.Role, validation.Required, validation.In("student", "teacher")), // todo: add more roles
 		validation.Field(&req.Nationality, validation.Required, validation.Length(1, 50)),
 		validation.Field(&req.City, validation.Required, validation.Length(1, 50)),
 		validation.Field(&req.Address, validation.Required, validation.Length(1, 255)),

@@ -20,6 +20,12 @@ func (l *studentHandler) StudentPatchByID(rw http.ResponseWriter, r *http.Reques
 
 	studentId := mux.Vars(r)["student-id"]
 
+	if err := l.validator.StudentPatchByIdValidator(req, studentId); err != nil {
+		response.JSONErrorResponse(rw, err)
+		l.logger.PrintHTTPResponse(r, http.StatusBadRequest, "validationErrors")
+		return
+	}
+
 	err := l.studentService.StudentModifyByID(&req, studentId)
 	if err == nil {
 		response.JSONMessageResponse(rw, http.StatusOK, "Student updated successfully.")
