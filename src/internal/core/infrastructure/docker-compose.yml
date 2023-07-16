@@ -1,0 +1,18 @@
+version: "3.3"
+services:
+  snono-api-db:
+    container_name: campushq-container
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: "campushq"
+      POSTGRES_USER: "root"
+      POSTGRES_PASSWORD: "root"
+    ports:
+      - "5432:5432"
+    expose:
+      - "5432"
+    volumes:
+      - vol-campushq-db:/var/lib/postgresql/data
+volumes:
+  vol-campushq-db:

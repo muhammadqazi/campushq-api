@@ -11,44 +11,6 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-const getLastInsertedStudentId = `-- name: GetLastInsertedStudentId :one
-SELECT student_id FROM students ORDER BY student_id DESC LIMIT 1
-`
-
-func (q *Queries) GetLastInsertedStudentId(ctx context.Context) (int32, error) {
-	row := q.db.QueryRow(ctx, getLastInsertedStudentId)
-	var student_id int32
-	err := row.Scan(&student_id)
-	return student_id, err
-}
-
-const getStudentById = `-- name: GetStudentById :one
-SELECT student_id, first_name, surname, sex, role, status, access_status, acceptance_type, graduation_date, supervisor_id, department_id, created_at, updated_at, deleted_at, is_active FROM students WHERE student_id = $1
-`
-
-func (q *Queries) GetStudentById(ctx context.Context, studentID int32) (Student, error) {
-	row := q.db.QueryRow(ctx, getStudentById, studentID)
-	var i Student
-	err := row.Scan(
-		&i.StudentID,
-		&i.FirstName,
-		&i.Surname,
-		&i.Sex,
-		&i.Role,
-		&i.Status,
-		&i.AccessStatus,
-		&i.AcceptanceType,
-		&i.GraduationDate,
-		&i.SupervisorID,
-		&i.DepartmentID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.DeletedAt,
-		&i.IsActive,
-	)
-	return i, err
-}
-
 const insertStudent = `-- name: InsertStudent :one
 INSERT INTO students (
     student_id,
@@ -100,6 +62,44 @@ func (q *Queries) InsertStudent(ctx context.Context, arg InsertStudentParams) (i
 	var student_id int32
 	err := row.Scan(&student_id)
 	return student_id, err
+}
+
+const selectLastInsertedStudentId = `-- name: SelectLastInsertedStudentId :one
+SELECT student_id FROM students ORDER BY student_id DESC LIMIT 1
+`
+
+func (q *Queries) SelectLastInsertedStudentId(ctx context.Context) (int32, error) {
+	row := q.db.QueryRow(ctx, selectLastInsertedStudentId)
+	var student_id int32
+	err := row.Scan(&student_id)
+	return student_id, err
+}
+
+const selectStudentById = `-- name: SelectStudentById :one
+SELECT student_id, first_name, surname, sex, role, status, access_status, acceptance_type, graduation_date, supervisor_id, department_id, created_at, updated_at, deleted_at, is_active FROM students WHERE student_id = $1
+`
+
+func (q *Queries) SelectStudentById(ctx context.Context, studentID int32) (Student, error) {
+	row := q.db.QueryRow(ctx, selectStudentById, studentID)
+	var i Student
+	err := row.Scan(
+		&i.StudentID,
+		&i.FirstName,
+		&i.Surname,
+		&i.Sex,
+		&i.Role,
+		&i.Status,
+		&i.AccessStatus,
+		&i.AcceptanceType,
+		&i.GraduationDate,
+		&i.SupervisorID,
+		&i.DepartmentID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.DeletedAt,
+		&i.IsActive,
+	)
+	return i, err
 }
 
 const updateStudent = `-- name: UpdateStudent :exec

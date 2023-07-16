@@ -8,6 +8,7 @@ import (
 type StudentService interface {
 	StudentSignup(*dtos.StudentCreateDTO) (int32, error)
 	StudentModifyByID(*dtos.StudentPatchDTO, string) error
+	StudentFetchByID(string) ([]*dtos.StudentFetchDTO, error)
 }
 
 type studentService struct {

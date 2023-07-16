@@ -11,7 +11,7 @@ import (
 
 func (s *studentService) StudentSignup(req *dtos.StudentCreateDTO) (int32, error) {
 	ctx := context.TODO()
-	lastInsertedId, err := s.repository.GetLastInsertedStudentId(ctx)
+	lastInsertedId, err := s.repository.SelectLastInsertedStudentId(ctx)
 	if err != nil {
 		return 0, err
 	}

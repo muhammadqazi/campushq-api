@@ -19,7 +19,7 @@ func (v *studentValidators) StudentPatchByIdValidator(req dtos.StudentPatchDTO, 
 		return fmt.Errorf("invalid student ID")
 	}
 
-	_, err = v.repository.GetStudentById(ctx, int32(studentId))
+	_, err = v.repository.SelectStudentById(ctx, int32(studentId))
 	if err != nil {
 		return fmt.Errorf("student with ID %s does not exist", id)
 	}

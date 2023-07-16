@@ -13,6 +13,7 @@ type StudentHandler interface {
 	StudentSignin(rw http.ResponseWriter, r *http.Request)
 	StudentSignup(rw http.ResponseWriter, r *http.Request)
 	StudentPatchByID(rw http.ResponseWriter, r *http.Request)
+	StudentGetByID(rw http.ResponseWriter, r *http.Request)
 }
 
 type studentHandler struct {

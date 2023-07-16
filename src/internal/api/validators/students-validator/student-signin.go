@@ -19,7 +19,7 @@ func (v *studentValidators) StudentSigninValidator(req dtos.StudentSigninDTO) er
 					return fmt.Errorf("invalid username")
 				}
 
-				model, err := v.repository.GetStudentById(ctx, int32(studentId))
+				model, err := v.repository.SelectStudentById(ctx, int32(studentId))
 				if err != nil {
 					return fmt.Errorf("no student found with id %d", studentId)
 				}

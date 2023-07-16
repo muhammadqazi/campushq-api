@@ -1,20 +1,21 @@
 DB_URL=$(shell grep DB_URL .env | cut -d '=' -f2-)
 
 postgres:
-	docker run --name postgres -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -p 5432:5432 -d postgres:latest
+	docker run --name campushq-container -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -p 5432:5432 -d postgres:latest
 create-db:
-	docker exec -it postgres createdb --username=root --owner=root campushq
+	docker exec -it campushq-container createdb --username=root --owner=root campushq
 db-wipe:
-	docker exec -it postgres dropdb campushq
+	@cd src/internal/core/infrastructure/postgres && \
+	docker compose down && \
+	docker-compose rm -fsv && \
+	docker volume rm infrastructure_vol-campushq-db
+db-start:
+	@cd src/internal/core/infrastructure/postgres && \
+	docker compose up -d
 db-init:
-	echo $(DB_URL)
-	@cd src/internal/core/infrastructure/postgres && \
-	docker exec -it postgres createdb --username=root --owner=root campushq && \
-	docker exec -i postgres psql -U root -d campushq < database-up.sql && \
-	docker exec -i postgres psql -U root -d campushq < db-seed.sql
-db-seed:
-	@cd src/internal/core/infrastructure/postgres && \
-	docker exec -i postgres psql -U root -d campushq < db-seed.sql
+	@echo "Migrating database schema and seeding data..."
+	make migrate-up
+	@cd src/internal/core/infrastructure/postgres; docker exec -i campushq-container psql -U root -d campushq < db-seed.sql
 new-migration:
 	migrate create -ext sql -dir  src/internal/core/infrastructure/postgres/migrations -seq $(name)
 migrate-up:
@@ -24,9 +25,9 @@ migrate-down:
 sqlc:
 	sqlc generate
 server:
-	@if [ -z $$(docker exec -it postgres psql -U root -lqt | cut -d \| -f 1 | grep -w "campushq") ]; then \
+	@if [ -z $$(docker exec -it campushq-container psql -U root -lqt | cut -d \| -f 1 | grep -w "campushq") ]; then \
 		make create-db; \
 	fi
 	go run src/cmd/main.go
 
-.PHONY: postgres create-db db-wipe db-init db-seed server new-migration migrate-up migrate-down sqlc
+.PHONY: postgres create-db db-wipe db-start db-init db-seed server new-migration migrate-up migrate-down sqlc

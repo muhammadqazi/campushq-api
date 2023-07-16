@@ -137,7 +137,6 @@ func main() {
 	   | Start the server
 	   |--------------------------------------------------------------------------
 	*/
-
 	s := http.Server{
 		Addr:         env.PORT,
 		Handler:      r,
