@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"encoding/json"
 	"net/http"
 
 	"github.com/campushq-official/campushq-api/src/internal/common/response"
@@ -24,12 +25,12 @@ func (l *studentHandler) StudentSignin(rw http.ResponseWriter, r *http.Request) 
 
 	if token, err := l.auth0Service.Auth0UserSignin(req); err == nil {
 
-		data := map[string]interface{}{
-			"token": token,
-			"type":  "Bearer",
-		}
-
-		response.JSONDataResponse(rw, http.StatusOK, data)
+		json.NewEncoder(rw).Encode(
+			map[string]interface{}{
+				"status": true,
+				"token":  token,
+			},
+		)
 		l.logger.PrintHTTPResponse(r, http.StatusOK, "Student signed in successfully.")
 		return
 	}
