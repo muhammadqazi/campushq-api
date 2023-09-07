@@ -8,7 +8,7 @@ import (
 	repositories "github.com/campushq-official/campushq-api/src/internal/core/infrastructure/postgres/repositories/sqlc"
 )
 
-func StudentPatchMapper(req dtos.StudentPatchDTO, id string) *repositories.UpdateStudentParams {
+func PatchStudentMapper(req dtos.StudentPatchDTO, id string) *repositories.UpdateStudentParams {
 	studentId, _ := strconv.ParseInt(id, 10, 32)
 
 	studentEntity := repositories.UpdateStudentParams{

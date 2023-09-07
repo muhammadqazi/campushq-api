@@ -9,7 +9,7 @@ import (
 	validation "github.com/go-ozzo/ozzo-validation"
 )
 
-func (v *studentValidators) StudentSigninValidator(req dtos.StudentSigninDTO) error {
+func (v *studentValidators) StudentSigninSchema(req dtos.StudentSigninDTO) error {
 	ctx := context.TODO()
 	err := validation.ValidateStruct(&req,
 		validation.Field(&req.Username, validation.Required, validation.By(

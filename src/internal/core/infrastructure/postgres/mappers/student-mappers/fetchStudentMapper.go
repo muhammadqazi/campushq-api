@@ -5,7 +5,7 @@ import (
 	repositories "github.com/campushq-official/campushq-api/src/internal/core/infrastructure/postgres/repositories/sqlc"
 )
 
-func StudentFetchMapper(req repositories.Student) []*dtos.StudentFetchDTO {
+func FetchStudentMapper(req repositories.Student) []*dtos.StudentFetchDTO {
 
 	arr := []repositories.Student{req}
 

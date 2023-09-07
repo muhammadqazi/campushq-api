@@ -41,3 +41,6 @@ SET
     updated_at = CURRENT_TIMESTAMP
 WHERE
     student_id = $1;
+
+-- name: SelectAllStudents :many
+SELECT * FROM students ORDER BY student_id DESC LIMIT $1 OFFSET $2;

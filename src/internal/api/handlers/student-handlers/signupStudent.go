@@ -9,7 +9,7 @@ import (
 	dtos "github.com/campushq-official/campushq-api/src/internal/core/domain/dtos/student-dtos"
 )
 
-func (l *studentHandler) StudentSignup(rw http.ResponseWriter, r *http.Request) {
+func (l *studentHandler) SignupStudent(rw http.ResponseWriter, r *http.Request) {
 	var req dtos.StudentCreateDTO
 
 	if err := utils.RequestBodyParser(r, &req); err != nil {
@@ -18,7 +18,7 @@ func (l *studentHandler) StudentSignup(rw http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	if err := l.validator.StudentSignupValidator(req); err != nil {
+	if err := l.validator.StudentSignupSchema(req); err != nil {
 		response.JSONErrorResponse(rw, err)
 		l.logger.PrintHTTPResponse(r, http.StatusBadRequest, "validationErrors")
 		return
@@ -27,7 +27,7 @@ func (l *studentHandler) StudentSignup(rw http.ResponseWriter, r *http.Request) 
 	oneTimePassword := utils.PasswordGenerator(16, 2)
 	req.Password = oneTimePassword
 
-	if lastStudentId, err := l.studentService.StudentSignup(&req); err == nil {
+	if lastStudentId, err := l.studentService.StudentRegister(&req); err == nil {
 		studentId := lastStudentId + 1
 		username := fmt.Sprintf("student-%d", studentId)
 		auth0User := dtos.Auth0SignupDTO{

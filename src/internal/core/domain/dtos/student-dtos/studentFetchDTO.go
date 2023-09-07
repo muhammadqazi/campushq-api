@@ -16,3 +16,18 @@ type StudentFetchDTO struct {
 	SupervisorID   int64     `json:"supervisorId"`
 	IsActive       bool      `json:"isActive"`
 }
+
+type PaginationMetadata struct {
+	Limit      int32  `json:"limit"`
+	From       int32  `json:"from"`
+	To         int32  `json:"to"`
+	TotalCount int32  `json:"totalCount"`
+	Links      []Link `json:"links"`
+}
+
+type Link struct {
+	Self     interface{} `json:"self"`
+	First    interface{} `json:"first"`
+	Previous interface{} `json:"previous"`
+	Next     interface{} `json:"next"`
+}

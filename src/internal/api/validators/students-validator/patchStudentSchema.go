@@ -11,7 +11,7 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-func (v *studentValidators) StudentPatchByIdValidator(req dtos.StudentPatchDTO, id string) error {
+func (v *studentValidators) PatchStudentSchema(req dtos.StudentPatchDTO, id string) error {
 	ctx := context.TODO()
 
 	studentId, err := strconv.ParseInt(id, 10, 32)

@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-func (v *studentValidators) StudentIDValidator(id string) error {
+func (v *studentValidators) StudentIdSchema(id string) error {
 	ctx := context.TODO()
 
 	studentId, err := strconv.ParseInt(id, 10, 32)

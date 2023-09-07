@@ -5,7 +5,7 @@ import (
 	repositories "github.com/campushq-official/campushq-api/src/internal/core/infrastructure/postgres/repositories/sqlc"
 )
 
-func StudentSignupMapper(req dtos.StudentCreateDTO, lastInsertedId int32) *repositories.InsertStudentParams {
+func SignupStudentMapper(req dtos.StudentCreateDTO, lastInsertedId int32) *repositories.InsertStudentParams {
 	// semester := utils.GetCurrentSemester()
 	// studentId := utils.StudentIDGenerator(12, "Fall", lastInsertedId)
 

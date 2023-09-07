@@ -11,7 +11,7 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-func (v *studentValidators) StudentSignupValidator(req dtos.StudentCreateDTO) error {
+func (v *studentValidators) StudentSignupSchema(req dtos.StudentCreateDTO) error {
 	ctx := context.TODO()
 	err := validation.ValidateStruct(&req,
 		validation.Field(&req.Email, validation.Required, is.Email, validation.Length(3, 255)),

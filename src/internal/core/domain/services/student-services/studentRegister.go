@@ -9,14 +9,14 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-func (s *studentService) StudentSignup(req *dtos.StudentCreateDTO) (int32, error) {
+func (s *studentService) StudentRegister(req *dtos.StudentCreateDTO) (int32, error) {
 	ctx := context.TODO()
 	lastInsertedId, err := s.repository.SelectLastInsertedStudentId(ctx)
 	if err != nil {
 		return 0, err
 	}
 
-	studentEntity := studentMapper.StudentSignupMapper(*req, lastInsertedId)
+	studentEntity := studentMapper.SignupStudentMapper(*req, lastInsertedId)
 	insertedStudentId, err := s.repository.InsertStudent(ctx, *studentEntity)
 	if err != nil {
 		return 0, err

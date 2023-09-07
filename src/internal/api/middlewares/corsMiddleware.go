@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-// CORS middleware
+// CORS middleware (not been used anymore DEPRECATED)
 func CORS(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		fmt.Println("CORS middleware")

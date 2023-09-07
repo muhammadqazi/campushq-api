@@ -8,7 +8,7 @@ import (
 	mappers "github.com/campushq-official/campushq-api/src/internal/core/infrastructure/postgres/mappers/student-mappers"
 )
 
-func (s *studentService) StudentFetchByID(id string) ([]*dtos.StudentFetchDTO, error) {
+func (s *studentService) FetchStudentById(id string) ([]*dtos.StudentFetchDTO, error) {
 
 	ctx := context.TODO()
 
@@ -19,6 +19,6 @@ func (s *studentService) StudentFetchByID(id string) ([]*dtos.StudentFetchDTO, e
 		return nil, err
 	}
 
-	return mappers.StudentFetchMapper(studentEntity), nil
+	return mappers.FetchStudentMapper(studentEntity), nil
 
 }
