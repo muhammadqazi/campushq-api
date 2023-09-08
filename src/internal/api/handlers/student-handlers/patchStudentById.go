@@ -10,7 +10,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func (l *studentHandler) StudentPatchByID(rw http.ResponseWriter, r *http.Request) {
+func (l *studentHandler) PatchStudentById(rw http.ResponseWriter, r *http.Request) {
 	var req dtos.StudentPatchDTO
 	if err := utils.RequestBodyParser(r, &req); err != nil {
 		response.JSONErrorResponse(rw, err)
@@ -20,13 +20,13 @@ func (l *studentHandler) StudentPatchByID(rw http.ResponseWriter, r *http.Reques
 
 	studentId := mux.Vars(r)["student-id"]
 
-	if err := l.validator.StudentPatchByIdValidator(req, studentId); err != nil {
+	if err := l.validator.PatchStudentSchema(req, studentId); err != nil {
 		response.JSONErrorResponse(rw, err)
 		l.logger.PrintHTTPResponse(r, http.StatusBadRequest, "validationErrors")
 		return
 	}
 
-	err := l.studentService.StudentModifyByID(&req, studentId)
+	err := l.studentService.ModifyStudentById(&req, studentId)
 	if err == nil {
 		response.JSONMessageResponse(rw, http.StatusOK, "Student updated successfully.")
 		l.logger.PrintHTTPResponse(r, http.StatusOK, fmt.Sprintf("Student with ID %s updated successfully.", studentId))

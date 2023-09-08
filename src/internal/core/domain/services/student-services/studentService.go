@@ -6,8 +6,10 @@ import (
 )
 
 type StudentService interface {
-	StudentSignup(*dtos.StudentCreateDTO) (int32, error)
-	StudentModifyByID(*dtos.StudentPatchDTO, string) error
+	StudentRegister(*dtos.StudentCreateDTO) (int32, error)
+	ModifyStudentById(*dtos.StudentPatchDTO, string) error
+	FetchStudentById(string) ([]*dtos.StudentFetchDTO, error)
+	FetchAllStudents(int64, int64) ([]*dtos.StudentFetchDTO, error)
 }
 
 type studentService struct {

@@ -19,6 +19,7 @@ import (
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/jackc/pgx/v5/pgxpool"
 	_ "github.com/mattes/migrate/source/file"
@@ -97,7 +98,6 @@ func main() {
 	r := mux.NewRouter().PathPrefix("/api/v1").Subrouter()
 	auth := middlewares.NewAuth0Middleware(env, logger)
 
-	r.Use(middlewares.CORS)
 	r.Use(middlewares.Loggin)
 	r.Use(auth.Auth0Authentication)
 
@@ -137,10 +137,11 @@ func main() {
 	   | Start the server
 	   |--------------------------------------------------------------------------
 	*/
+	ch := handlers.CORS(handlers.AllowedOrigins([]string{"*"}))
 
 	s := http.Server{
-		Addr:         env.PORT,
-		Handler:      r,
+		Addr:         "localhost:" + env.PORT,
+		Handler:      ch(r),
 		ReadTimeout:  5 * time.Second,
 		WriteTimeout: 10 * time.Second,
 		IdleTimeout:  120 * time.Second,

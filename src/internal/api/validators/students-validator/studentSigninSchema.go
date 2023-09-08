@@ -9,7 +9,7 @@ import (
 	validation "github.com/go-ozzo/ozzo-validation"
 )
 
-func (v *studentValidators) StudentSigninValidator(req dtos.StudentSigninDTO) error {
+func (v *studentValidators) StudentSigninSchema(req dtos.StudentSigninDTO) error {
 	ctx := context.TODO()
 	err := validation.ValidateStruct(&req,
 		validation.Field(&req.Username, validation.Required, validation.By(
@@ -19,7 +19,7 @@ func (v *studentValidators) StudentSigninValidator(req dtos.StudentSigninDTO) er
 					return fmt.Errorf("invalid username")
 				}
 
-				model, err := v.repository.GetStudentById(ctx, int32(studentId))
+				model, err := v.repository.SelectStudentById(ctx, int32(studentId))
 				if err != nil {
 					return fmt.Errorf("no student found with id %d", studentId)
 				}

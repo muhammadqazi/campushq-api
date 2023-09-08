@@ -7,8 +7,9 @@ import (
 
 type Auth0Service interface {
 	GenerateAccessToken() (string, error)
-	Auth0Signup(req *dtos.Auth0SignupDTO) error
+	Auth0Signup(req *dtos.Auth0SignupDTO) (*dtos.Auth0SignupResponseDTO, error)
 	Auth0UserSignin(req dtos.StudentSigninDTO) (string, error)
+	Auth0AssignRole(userId string) (string, error)
 }
 
 type auth0Service struct {

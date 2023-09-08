@@ -6,9 +6,10 @@ import (
 )
 
 type StudentValidators interface {
-	StudentSignupValidator(req dtos.StudentCreateDTO) error
-	StudentSigninValidator(req dtos.StudentSigninDTO) error
-	StudentPatchByIdValidator(dtos.StudentPatchDTO, string) error
+	StudentSignupSchema(req dtos.StudentCreateDTO) error
+	StudentSigninSchema(req dtos.StudentSigninDTO) error
+	PatchStudentSchema(dtos.StudentPatchDTO, string) error
+	StudentIdSchema(string) error
 }
 
 type studentValidators struct {

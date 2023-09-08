@@ -10,9 +10,11 @@ import (
 )
 
 type StudentHandler interface {
-	StudentSignin(rw http.ResponseWriter, r *http.Request)
-	StudentSignup(rw http.ResponseWriter, r *http.Request)
-	StudentPatchByID(rw http.ResponseWriter, r *http.Request)
+	SigninStudent(rw http.ResponseWriter, r *http.Request)
+	SignupStudent(rw http.ResponseWriter, r *http.Request)
+	PatchStudentById(rw http.ResponseWriter, r *http.Request)
+	GetStudentById(rw http.ResponseWriter, r *http.Request)
+	GetAllStudents(rw http.ResponseWriter, r *http.Request)
 }
 
 type studentHandler struct {

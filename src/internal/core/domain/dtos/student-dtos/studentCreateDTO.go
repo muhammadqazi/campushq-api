@@ -31,3 +31,25 @@ type Auth0SignupDTO struct {
 	Password   string `json:"password"`
 	Connection string `json:"connection"`
 }
+
+type Auth0SignupResponseDTO struct {
+	CreatedAt     string `json:"created_at"`
+	Email         string `json:"email"`
+	EmailVerified bool   `json:"email_verified"`
+	Identities    []struct {
+		Connection string `json:"connection"`
+		UserId     string `json:"user_id"`
+		Provider   string `json:"provider"`
+		IsSocial   bool   `json:"isSocial"`
+	} `json:"identities"`
+	Name      string `json:"name"`
+	Nickname  string `json:"nickname"`
+	Picture   string `json:"picture"`
+	UpdatedAt string `json:"updated_at"`
+	UserId    string `json:"user_id"`
+	Username  string `json:"username"`
+}
+
+type Auth0AssignRoleDTO struct {
+	Roles []string `json:"roles"`
+}

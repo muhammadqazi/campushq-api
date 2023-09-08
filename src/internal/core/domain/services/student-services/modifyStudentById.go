@@ -8,10 +8,10 @@ import (
 	mappers "github.com/campushq-official/campushq-api/src/internal/core/infrastructure/postgres/mappers/student-mappers"
 )
 
-func (s *studentService) StudentModifyByID(req *dtos.StudentPatchDTO, id string) error {
+func (s *studentService) ModifyStudentById(req *dtos.StudentPatchDTO, id string) error {
 	ctx := context.TODO()
 
-	studentEntity := mappers.StudentPatchMapper(*req, id)
+	studentEntity := mappers.PatchStudentMapper(*req, id)
 	err := s.repository.UpdateStudent(ctx, *studentEntity)
 	if err != nil {
 		return err

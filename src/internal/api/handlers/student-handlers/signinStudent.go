@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"encoding/json"
 	"net/http"
 
 	"github.com/campushq-official/campushq-api/src/internal/common/response"
@@ -8,7 +9,7 @@ import (
 	dtos "github.com/campushq-official/campushq-api/src/internal/core/domain/dtos/student-dtos"
 )
 
-func (l *studentHandler) StudentSignin(rw http.ResponseWriter, r *http.Request) {
+func (l *studentHandler) SigninStudent(rw http.ResponseWriter, r *http.Request) {
 	var req dtos.StudentSigninDTO
 	if err := utils.RequestBodyParser(r, &req); err != nil {
 		response.JSONErrorResponse(rw, err)
@@ -16,7 +17,7 @@ func (l *studentHandler) StudentSignin(rw http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	if err := l.validator.StudentSigninValidator(req); err != nil {
+	if err := l.validator.StudentSigninSchema(req); err != nil {
 		response.JSONErrorResponse(rw, err)
 		l.logger.PrintHTTPResponse(r, http.StatusBadRequest, "validationErrors")
 		return
@@ -24,12 +25,12 @@ func (l *studentHandler) StudentSignin(rw http.ResponseWriter, r *http.Request) 
 
 	if token, err := l.auth0Service.Auth0UserSignin(req); err == nil {
 
-		data := map[string]interface{}{
-			"token": token,
-			"type":  "Bearer",
-		}
-
-		response.JSONDataResponse(rw, http.StatusOK, data)
+		json.NewEncoder(rw).Encode(
+			map[string]interface{}{
+				"status": true,
+				"token":  token,
+			},
+		)
 		l.logger.PrintHTTPResponse(r, http.StatusOK, "Student signed in successfully.")
 		return
 	}

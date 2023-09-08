@@ -9,8 +9,9 @@ import (
 	"github.com/carlmjohnson/requests"
 )
 
-func (s *auth0Service) Auth0Signup(req *dtos.Auth0SignupDTO) error {
+func (s *auth0Service) Auth0Signup(req *dtos.Auth0SignupDTO) (*dtos.Auth0SignupResponseDTO, error) {
 
+	var response *dtos.Auth0SignupResponseDTO
 	ctx := context.TODO()
 
 	token, _ := s.GenerateAccessToken()
@@ -22,14 +23,15 @@ func (s *auth0Service) Auth0Signup(req *dtos.Auth0SignupDTO) error {
 		Host(s.Domain).
 		Header("Authorization", "Bearer "+token).
 		BodyJSON(&req).
+		ToJSON(&response).
 		Fetch(ctx)
 
 	if err != nil {
 		err = tracerr.Wrap(err)
 		tracerr.PrintSourceColor(err)
-		return err
+		return nil, err
 	}
 
-	return nil
+	return response, nil
 
 }

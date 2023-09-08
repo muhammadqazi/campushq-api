@@ -21,10 +21,10 @@ INSERT INTO students (
     $9
 ) RETURNING student_id;
 
--- name: GetLastInsertedStudentId :one
+-- name: SelectLastInsertedStudentId :one
 SELECT student_id FROM students ORDER BY student_id DESC LIMIT 1;
 
--- name: GetStudentById :one
+-- name: SelectStudentById :one
 SELECT * FROM students WHERE student_id = $1;
 
 -- name: UpdateStudent :exec
@@ -41,3 +41,6 @@ SET
     updated_at = CURRENT_TIMESTAMP
 WHERE
     student_id = $1;
+
+-- name: SelectAllStudents :many
+SELECT * FROM students ORDER BY student_id DESC LIMIT $1 OFFSET $2;

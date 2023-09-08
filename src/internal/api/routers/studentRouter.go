@@ -33,7 +33,11 @@ func (r *studentRouter) StudentRouter() {
 	h := handlers.NewStudentHandler(r.logger, r.auth0Service, r.studentService, r.studentValidator)
 
 	router := r.router
-	router.HandleFunc("/student/signin", h.StudentSignin).Methods("POST")
-	router.HandleFunc("/student/signup", middlewares.Auth0Authorization("student.create", r.logger, h.StudentSignup)).Methods("POST")
-	router.HandleFunc("/student/{student-id}", middlewares.Auth0Authorization("student.update", r.logger, h.StudentPatchByID)).Methods("PATCH")
+	router.HandleFunc("/student/signin", h.SigninStudent).Methods("POST")
+	router.HandleFunc("/student/signup", middlewares.Auth0Authorization("student.create", r.logger, h.SignupStudent)).Methods("POST")
+	router.HandleFunc("/student", middlewares.Auth0Authorization("student.read", r.logger, h.GetAllStudents)).Methods("GET").
+		Queries("page", "{page:[0-9]+}", "limit", "{limit:[0-9]+}")
+
+	router.HandleFunc("/student/{student-id:[0-9]+}", middlewares.Auth0Authorization("student.read", r.logger, h.GetStudentById)).Methods("GET")
+	router.HandleFunc("/student/{student-id:[0-9]+}", middlewares.Auth0Authorization("student.update", r.logger, h.PatchStudentById)).Methods("PATCH")
 }

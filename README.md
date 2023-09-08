@@ -31,31 +31,23 @@ git clone git@github.com:campushq-official/campushq-api.git
 
 <u>Create .env file in the root directory of the project, and add the environment variables specified in the .env.sample file.</u>
 
-Create a docker image for postgresql, run the command below in the root directory of the project by default this will build a postgresql image, with `username` as `root` and password as `root`, running on port :5432.
-```bash
-make postgres
+The following two commands will make docker container, database and seed the database for you automatically,
+
+To start the docker container run,
+
 ```
-If you have a postgresql instance running on your machine, you can skip this step and update the .env (DB_URL) and MakeFile file with your postgresql credentials.
-    
-Format for DB_URL:
-
-`postgres://username:password@host:port/database?sslmode=disable`
-
-
-
-Start the application, on Port specified in the .env file
-```bash
-make server
+make db-start
 ```
 
-After starting the application, make sure you seed the database with the following command
-```bash
-make db-seed
+To migrate database schema and seed the database run,
+
+```
+make db-init
 ```
 
 #### Some useful commands
 
-- `db-wipe` This command will drop the database.
+- `db-wipe` This command will drop the database and remove the docker container.
 - `new-migration name=migration-name` This command will create a new migration file in the migrations' folder. The name flag is required.
 - `migrate-up` This command will run all the migrations.
 - `migrate-down` This command will roll back the migrations.
