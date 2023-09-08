@@ -36,7 +36,14 @@ func (l *studentHandler) SignupStudent(rw http.ResponseWriter, r *http.Request) 
 			Password: req.Password,
 		}
 
-		if err := l.auth0Service.Auth0Signup(&auth0User); err != nil {
+		createdUser, err := l.auth0Service.Auth0Signup(&auth0User)
+		if err != nil {
+			response.JSONErrorResponse(rw, err)
+			l.logger.PrintHTTPResponse(r, http.StatusInternalServerError, "Internal server error.")
+			return
+		}
+
+		if _, err = l.auth0Service.Auth0AssignRole(createdUser.UserId); err != nil {
 			response.JSONErrorResponse(rw, err)
 			l.logger.PrintHTTPResponse(r, http.StatusInternalServerError, "Internal server error.")
 			return
