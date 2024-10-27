@@ -1,4 +1,5 @@
-version: "3.3"
+version: '3.8'
+
 services:
   snono-api-db:
     container_name: campushq-container
@@ -14,5 +15,6 @@ services:
       - "5432"
     volumes:
       - vol-campushq-db:/var/lib/postgresql/data
+
 volumes:
   vol-campushq-db:

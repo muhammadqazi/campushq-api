@@ -5,10 +5,10 @@ postgres:
 create-db:
 	docker exec -it campushq-container createdb --username=root --owner=root campushq
 db-wipe:
+	@echo "Stopping and removing the database container..."
 	@cd src/internal/core/infrastructure/postgres && \
-	docker compose down && \
-	docker-compose rm -fsv && \
-	docker volume rm infrastructure_vol-campushq-db
+	docker compose down --remove-orphans && \
+	docker volume rm -f infrastructure_vol-campushq-db
 db-start:
 	@cd src/internal/core/infrastructure/postgres && \
 	docker compose up -d
