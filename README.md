@@ -2,7 +2,7 @@
 
 This repository contains the source code for the CampusHQ backend API.
 
-#### CampusHQ Architecture
+#### Golang Clean Architecture, Auth0, SQLC
 
 CampusHQ uses onion architecture to separate the application into layers. The layers are as follows:
 - Domain Layer
